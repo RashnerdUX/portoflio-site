@@ -1,0 +1,16 @@
+# requirements.txt
+Django
+djangorestframework
+django-cors-headers
+django-environ
+Pillow
+python-decouple
+psycopg2-binary
+gunicorn
+whitenoise
+django-storages
+boto3
+djangorestframework-simplejwt
+django-filter
+markdown
+django-ckeditor

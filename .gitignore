@@ -1,0 +1,77 @@
+# =============================================================================
+# General / OS / IDE
+# =============================================================================
+
+# Environment variables
+# Use .env.example to commit a template of your environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE-specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+._*
+
+# =============================================================================
+# Next.js / Node.js (Frontend)
+# =============================================================================
+
+# Dependency directories
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Production build folder
+build/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =o===========================================================================
+# Django / Python (Backend)
+# =============================================================================
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+# Replace 'venv' with the name of your virtual environment folder if different
+venv/
+env/
+.venv/
+.env/
+
+# Django-specific
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Static and Media files
+# These are typically generated and served in production, not version controlled
+/staticfiles/
+/mediafiles/
+
+# Celery files
+celerybeat-schedule
+celerybeat.pid
+
+# Coverage reports
+.coverage
+.coverage.*
+htmlcov/
