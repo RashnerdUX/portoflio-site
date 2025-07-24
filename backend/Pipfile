@@ -23,6 +23,7 @@ django-tinymce = "*"
 django-filebrowser = "*"
 django-grappelli = "*"
 drf-spectacular = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
