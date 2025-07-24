@@ -19,6 +19,10 @@ djangorestframework-simplejwt = "*"
 django-filter = "*"
 markdown = "*"
 django-ckeditor = "*"
+django-tinymce = "*"
+django-filebrowser = "*"
+django-grappelli = "*"
+drf-spectacular = "*"
 
 [dev-packages]
 
