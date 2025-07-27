@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
 import os
 import dj_database_url
 
@@ -28,13 +28,13 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default="False", cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost, 127.0.0.1')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost, 127.0.0.1', cast=Csv())
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'grappelli',
+    #'grappelli',
     'filebrowser',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     #Third party apps
     'rest_framework',
     'corsheaders',
-    'ckeditor',
-    'ckeditor_uploader',
     'django_filters',
     'tinymce',
     #My apps
@@ -178,11 +176,7 @@ REST_FRAMEWORK = {
 }
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    # Add your production domains here
-]
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='http://localhost:3000',cast=Csv())
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -243,7 +237,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 #For TinyMCE rich editor
-TINYMCE_JS_URL = os.path.join(STATIC_URL, "path/to/tiny_mce/tiny_mce.js")
+TINYMCE_JS_URL = '/static/tinymce/tinymce.min.js'
 TINYMCE_DEFAULT_CONFIG = {
     "height": "320px",
     "width": "960px",
@@ -260,13 +254,3 @@ TINYMCE_DEFAULT_CONFIG = {
 }
 TINYMCE_SPELLCHECKER = True
 TINYMCE_COMPRESSOR = True
-TINYMCE_EXTRA_MEDIA = {
-    'css': {
-        'all': [
-            ...
-        ],
-    },
-    'js': [
-        ...
-    ],
-}

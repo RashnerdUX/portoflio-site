@@ -9,7 +9,6 @@ djangorestframework = "*"
 django-cors-headers = "*"
 django-environ = "*"
 pillow = "*"
-python-decouple = "*"
 psycopg2-binary = "*"
 gunicorn = "*"
 whitenoise = "*"
@@ -24,6 +23,7 @@ django-filebrowser = "*"
 django-grappelli = "*"
 drf-spectacular = "*"
 dj-database-url = "*"
+python-decouple = "*"
 
 [dev-packages]
 
