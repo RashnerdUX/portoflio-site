@@ -6,6 +6,7 @@ export { SocialLink } from './ui/SocialLink';
 // Animation Components
 export { MagicalElements } from './animations/MagicalElements';
 export { MagicalCookingAnimation } from './animations/MagicalCookingAnimation';
+export {HexElements} from './animations/HexElements';
 
 // Types
 export type { 
