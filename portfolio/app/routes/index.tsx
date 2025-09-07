@@ -37,6 +37,10 @@ export const Index = () => {
     <section id='experience-section' className='mx-auto max-w-5xl'>
     </section>
 
+    {/* Testimonials */}
+    <section id='testimonials-section' className='mx-auto max-w-5xl'>
+    </section>
+
     {/* Contact section */}
     <section id='contact-section' className='mx-auto max-w-5xl'>
     </section>
