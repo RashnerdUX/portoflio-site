@@ -10,6 +10,7 @@
   --color-border: hsl(var(--border));
   --color-circle-gradient: var(--circle-gradient);
   --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-muted-foreground: hsl(var(--primary-muted-foreground));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-neutral-accent: hsl(var(--neutral-accent));
 
@@ -29,6 +30,7 @@
     --foreground: 210 5% 5%;
     --background: 0 40% 98%;
     --primary-foreground: 0 0% 100%;
+    --primary-muted-foreground: 215 28% 27%;
     --secondary-foreground: 220 5% 9%;
     --neutral-accent: 219 9% 65%;
     --circle-gradient: radial-gradient(circle 500px at 50% 200px, #fdd9d9, transparent);
@@ -42,6 +44,7 @@
     --foreground: 0 0% 100%;
     --background: 240 5% 8%;
     --primary-foreground: 240 10% 96%;
+    --primary-muted-foreground: 240 5% 65%;
     --secondary-foreground: 240 5% 65%;
     --neutral-accent: 240 8% 30%;
     --circle-gradient: radial-gradient(circle 500px at 50% 200px, #4a1d1d, transparent);
