@@ -99,7 +99,7 @@ export const FeaturedProjects = () => {
   return (
     <div>
         <div className="relative flex size-full min-h-screen flex-col bg-background overflow-x-hidden">
-            <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight mb-8">Featured Projects</h2>
+            <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight mb-8 text-center">Featured Projects</h2>
             <div className="space-y-16">
                 {projects.map((project, index) => (
                     <ProjectCard key={index} {...project} />
