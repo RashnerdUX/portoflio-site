@@ -1,15 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family: "Spline Sans", "Noto Sans", sans-serif;
+
+  --color-primary: hsl(var(--primary));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-border: hsl(var(--border));
+  --color-circle-gradient: var(--circle-gradient);
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-neutral-accent: hsl(var(--neutral-accent));
+
+  --color-gradient: linear-gradient(
+    90deg,
+    hsl(var(--primary)) 0%,
+    hsl(var(--secondary)) 100%
+  );
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
-
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+@layer base {
+  :root {
+    /* Theme variables for light theme */
+    --primary: 358 84% 51%;
+    --secondary: 263 56% 79%;
+    --border: 240 2% 83%;
+    --foreground: 210 5% 5%;
+    --background: 0 40% 98%;
+    --primary-foreground: 0 0% 100%;
+    --secondary-foreground: 220 5% 9%;
+    --neutral-accent: 219 9% 65%;
+    --circle-gradient: radial-gradient(circle 500px at 50% 200px, #fdd9d9, transparent);
   }
+
+  .dark {
+    /* Theme variables for dark theme */
+    --primary: 0 74% 21%;
+    --secondary: 4 100% 70%;
+    --border: 240 2% 83%;
+    --foreground: 0 0% 100%;
+    --background: 240 5% 8%;
+    --primary-foreground: 240 10% 96%;
+    --secondary-foreground: 240 5% 65%;
+    --neutral-accent: 240 8% 30%;
+    --circle-gradient: radial-gradient(circle 500px at 50% 200px, #4a1d1d, transparent);
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans transition-colors duration-300;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Some utility classes */
+@utility page-title {
+  @apply text-5xl font-bold tracking-tighter text-gray-900 md:text-7xl lg:text-8xl;
+}
+
+@utility page-subtitle {
+  @apply mt-4 text-lg text-gray-600 md:text-xl lg:text-2xl;
+}
+
+@utility section-title {
+  @apply text-3xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl;
+}
+
+@utility button {
+  @apply flex items-center space-x-4;
+}
+@utility primary-link {
+  @apply text-white bg-primary hover:bg-red-700 font-medium rounded-full text-sm px-5 py-2.5 text-center transition-colors;
+}
+@utility secondary-link {
+  @apply text-gray-700 hover:text-black font-medium text-sm px-5 py-2.5 text-center transition-colors;
+}
+
+#root{
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  text-align: center;
 }
