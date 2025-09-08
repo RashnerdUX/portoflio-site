@@ -10,7 +10,7 @@ import { ContactMe } from '~/components/home/contact';
 
 export const Index = () => {
   return (
-    <div className='bg-background'>
+    <div className='bg-background flex flex-col gap-12 md:gap-16 lg:gap-20'>
     {/* Theme toggle button */}
     <Themetoggle />
     {/* Sticky sidebar navigation */}
@@ -26,7 +26,7 @@ export const Index = () => {
     </section>
 
     {/* Skills section */}
-    <section className='mx-auto max-w-5xl'>
+    <section id='skills-section' className='mx-auto max-w-5xl'>
       <Skills />
     </section>
 

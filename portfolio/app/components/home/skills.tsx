@@ -57,8 +57,8 @@ const SkillCard: React.FC<SkillProps> = ({ icon, name, level }) => (
 
 export const Skills = () => {
   return (
-    <div className="relative flex size-full min-h-screen flex-col bg-background overflow-x-hidden">
-      <div className="flex flex-col gap-8">
+    <div className="relative size-full min-h-screen bg-background overflow-x-hidden">
+      <div className="flex flex-col gap-y-8">
         <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight">My Skills</h2>
         {/* Backend */}
         <div>
