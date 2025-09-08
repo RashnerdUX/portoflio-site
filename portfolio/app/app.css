@@ -14,6 +14,8 @@
   --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-neutral-accent: hsl(var(--neutral-accent));
 
+  --color-card: hsl(var(--card));
+
   --color-gradient: linear-gradient(
     90deg,
     hsl(var(--primary)) 0%,

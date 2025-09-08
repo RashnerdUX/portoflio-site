@@ -45,7 +45,7 @@ export const Testimonials = () => {
   return (
     <>
         <div className='text-center mb-8'>
-            <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight mb-2">What our clients say</h2>
+            <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight mb-2">What my clients say</h2>
         </div>
         <div>
           {/* A carousel consisting of two rows of testimonials which displays the name, role, and quote for each testimonial */}

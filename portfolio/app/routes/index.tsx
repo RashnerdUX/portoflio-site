@@ -10,7 +10,7 @@ import { ContactMe } from '~/components/home/contact';
 
 export const Index = () => {
   return (
-    <div className='bg-background flex flex-col gap-12 md:gap-16 lg:gap-20'>
+    <div className='bg-background flex flex-col gap-12 md:gap-16 lg:gap-20 px-4 md:px-6 lg:px-8'>
     {/* Theme toggle button */}
     <Themetoggle />
     {/* Sticky sidebar navigation */}
