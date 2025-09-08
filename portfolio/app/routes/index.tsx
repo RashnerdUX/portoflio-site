@@ -5,6 +5,8 @@ import { Skills} from '~/components/home/skills';
 import { Themetoggle } from '~/components/Themetoggle';
 import { FeaturedProjects } from '~/components/home/featured_projects';
 import { AboutMe } from '~/components/home/about_me';
+import { Testimonials } from '~/components/home/testimonials';
+import { ContactMe } from '~/components/home/contact';
 
 export const Index = () => {
   return (
@@ -39,10 +41,12 @@ export const Index = () => {
 
     {/* Testimonials */}
     <section id='testimonials-section' className='mx-auto max-w-5xl'>
+      <Testimonials />
     </section>
 
     {/* Contact section */}
     <section id='contact-section' className='mx-auto max-w-5xl'>
+      <ContactMe />
     </section>
     </div>
   )
