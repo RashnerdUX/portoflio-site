@@ -58,10 +58,10 @@
     --secondary: 4 100% 70%;
     --border: 240 2% 83%;
     --foreground: 0 0% 100%;
-    --background: 240 5% 8%;
-    --primary-foreground: 240 10% 96%;
-    --primary-muted-foreground: 240 5% 65%;
-    --secondary-foreground: 240 5% 65%;
+    --background: 222 40% 11%;
+    --primary-foreground: 0 0% 100%;
+    --primary-muted-foreground: 213 27% 84%;
+    --secondary-foreground: 220 5% 9%;
     --neutral-accent: 240 8% 30%;
     --circle-gradient: radial-gradient(circle 500px at 50% 200px, #4a1d1d, transparent);
   }

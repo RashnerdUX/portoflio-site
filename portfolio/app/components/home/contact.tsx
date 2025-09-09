@@ -17,11 +17,11 @@ export const ContactMe = () => {
                 {/* CTA buttons */}
                 <div>
                     <div className='mt-8 flex justify-center gap-x-4'>
-                        <a href="mailto:akhigbek6@gmail.com" className="flex w-full cursor-pointer items-center justify-center rounded-full bg-primary px-8 py-3 text-base font-bold text-white shadow-lg transition-transform duration-300 hover:scale-105 sm:w-80">Email Me</a>
+                        <a href="mailto:akhigbek6@gmail.com" className="flex w-full cursor-pointer items-center justify-center rounded-full bg-primary px-8 py-3 text-base font-bold text-primary-foreground shadow-lg transition-transform duration-300 hover:scale-105 sm:w-80">Email Me</a>
                     </div>
                     <div className="mt-4 flex justify-center">
-                        <a className="group flex w-full max-w-xs items-center justify-center gap-3 rounded-full border-2 border-gray-300 bg-white px-8 py-3 text-lg font-semibold text-primary-muted-foreground transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-gray-50" download="" href="/files/resume.pdf">
-                        <FiDownload className="size-4 text-primary-muted-foreground group-hover:text-gray-800" />
+                        <a className="group flex w-full max-w-xs items-center justify-center gap-3 rounded-full border-2 border-gray-300 bg-white px-8 py-3 text-lg font-semibold text-secondary-foreground transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-gray-50" download="" href="/files/resume.pdf">
+                        <FiDownload className="size-4 text-secondary-foreground group-hover:text-gray-800" />
                         <span>Download Resume</span>
                         </a>
                     </div>

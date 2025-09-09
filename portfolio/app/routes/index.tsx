@@ -35,9 +35,10 @@ export const Index = () => {
       <FeaturedProjects />
     </section>
 
+    {/* TODO: There are two sections to work on later */}
     {/* Journey so far */}
-    <section id='experience-section' className='section'>
-    </section>
+    {/* <section id='experience-section' className='section'>
+    </section> */}
 
     {/* Testimonials */}
     {/* <section id='testimonials-section' className='section'>

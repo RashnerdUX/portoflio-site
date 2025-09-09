@@ -51,7 +51,7 @@ const SkillCard: React.FC<SkillProps> = ({ icon, name, level }) => (
         <div className="text-primary">
             {icon}
         </div>
-        <h4 className="text-foreground text-base font-semibold">{name}</h4>
+        <h4 className="text-secondary-foreground text-base font-semibold truncate">{name}</h4>
     </div>
 );
 
