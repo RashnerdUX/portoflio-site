@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { Footer } from "./components/home/footer";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,9 +20,47 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Spline+Sans:wght@400;700&display=swap",
   },
 ];
+
+export const meta: Route.MetaFunction = () => {
+  return [
+    { title: "Kelvin Akhigbe - Full Stack Developer Portfolio" },
+    {
+      name: "description",
+      content:
+        "Full Stack Developer specializing in Python, Javascript, and modern web technologies. View my projects, skills, and experience.",
+    },
+    {
+      name: "keywords",
+      content:
+        "full stack developer, react, django, fastapi, ai, ml, javascript, portfolio, web development",
+    },
+    { name: "author", content: "Kelvin Akhigbe" },
+
+    // Open Graph (Social Media)
+    { property: "og:title", content: "Kelvin Akhigbe - Full Stack Developer" },
+    {
+      property: "og:description",
+      content: "Full Stack Developer portfolio showcasing modern web applications",
+    },
+    { property: "og:image", content: "/og-image.jpg" },
+    { property: "og:url", content: "https://www.kelvinakhigbe.com" },
+    { property: "og:type", content: "website" },
+
+    // Twitter Cards
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:title", content: "Kelvin Akhigbe - Full Stack Developer" },
+    { name: "twitter:description", content: "Full Stack Developer portfolio" },
+    { name: "twitter:image", content: "/twitter-image.jpg" },
+
+    // Technical
+    { name: "viewport", content: "width=device-width, initial-scale=1" },
+    { name: "robots", content: "index, follow" },
+    { name: "theme-color", content: "#your-brand-color" },
+  ];
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,6 +68,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <Meta />
         <Links />
       </head>
@@ -36,6 +80,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <Footer />
       </body>
     </html>
   );
