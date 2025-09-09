@@ -10,13 +10,13 @@ interface TestimonialsCardProps {
 
 const TestimonialsCard: React.FC<TestimonialsCardProps> = ({ name, role, quote }) => {
   return (
-    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border-2 border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col justify-between bg-white dark:bg-gray-800 w-xs h-[256px] p-6 rounded-lg border-2 border-gray-200 dark:border-gray-700">
         {/* The quote icon*/}
-      <div className='mb-2'>
+      <div className='flex flex-col gap-4'>
         <ImQuotesLeft className='size-8 text-primary'/>
+        {/* The quote */}
+        <p className="text-foreground font-bold">{quote}</p>
       </div>
-      {/* The quote */}
-      <p className="text-foreground font-bold">{quote}</p>
 
       {/* The author */}
       <div className="mt-4">
@@ -38,24 +38,53 @@ const testimonials: TestimonialsCardProps[] = [
     name: "John Smith",
     role: "CTO, Company B",
     quote: "I can't believe how much this has helped my business."
-  }
+  },
+    {
+    name: "John Smith",
+    role: "CTO, Company B",
+    quote: "I can't believe how much this has helped my business."
+  },
+    {
+    name: "Jane Doe",
+    role: "CEO, Company A",
+    quote: "This is the best service I have ever used!"
+  },
+  {
+    name: "John Smith",
+    role: "CTO, Company B",
+    quote: "I can't believe how much this has helped my business."
+  },
 ]
 
 export const Testimonials = () => {
+  const duplicatedTestimonials = [...testimonials, ...testimonials];
+
+  // Animation refuses to work
+  // TODO: Fix the animation later on
   return (
-    <>
+    <div className='container mx-auto max-w-5xl'>
         <div className='text-center mb-8'>
             <h2 className="text-foreground text-3xl md:text-4xl font-bold tracking-tight mb-2">What my clients say</h2>
         </div>
-        <div>
-          {/* A carousel consisting of two rows of testimonials which displays the name, role, and quote for each testimonial */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {testimonials.map((testimonial, index) => (
-              <TestimonialsCard key={index} {...testimonial} />
+        <div className='overflow-hidden mt-12'>
+          {/* Carousel scroll right */}
+          <div className='flex w-max animate-scroll-right'>
+            {duplicatedTestimonials.map((testimonial, index) => (
+              <div key={index} className='p-4'>
+                <TestimonialsCard {...testimonial} />
+              </div>
+            ))}
+          </div>
+          {/* Carousel scroll left */}
+          <div className='flex w-max animate-scroll-left'>
+            {duplicatedTestimonials.map((testimonial, index) => (
+              <div key={index} className='p-4'>
+                <TestimonialsCard {...testimonial} />
+              </div>
             ))}
           </div>
         </div>
-    </>
+    </div>
   )
 }
 

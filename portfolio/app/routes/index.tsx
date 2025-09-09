@@ -10,7 +10,7 @@ import { ContactMe } from '~/components/home/contact';
 
 export const Index = () => {
   return (
-    <div className='bg-background flex flex-col gap-12 md:gap-16 lg:gap-20 px-4 md:px-6 lg:px-8'>
+    <div className='bg-background min-h-screen text-foreground px-4 md:px-6 lg:px-8'>
     {/* Theme toggle button */}
     <Themetoggle />
     {/* Sticky sidebar navigation */}
@@ -21,31 +21,31 @@ export const Index = () => {
     </section>
 
     {/* About me section */}
-    <section id='about-me-section' className='mx-auto max-w-5xl'>
+    <section id='about-me-section' className='section'>
       <AboutMe />
     </section>
 
     {/* Skills section */}
-    <section id='skills-section' className='mx-auto max-w-5xl'>
+    <section id='skills-section' className='section'>
       <Skills />
     </section>
 
     {/* Featured Projects section */}
-    <section id='featured-projects-section' className='mx-auto max-w-5xl'>
+    <section id='featured-projects-section' className='section'>
       <FeaturedProjects />
     </section>
 
     {/* Journey so far */}
-    <section id='experience-section' className='mx-auto max-w-5xl'>
+    <section id='experience-section' className='section'>
     </section>
 
     {/* Testimonials */}
-    <section id='testimonials-section' className='mx-auto max-w-5xl'>
+    {/* <section id='testimonials-section' className='section'>
       <Testimonials />
-    </section>
+    </section> */}
 
     {/* Contact section */}
-    <section id='contact-section' className='mx-auto max-w-5xl'>
+    <section id='contact-section' className='section'>
       <ContactMe />
     </section>
     </div>

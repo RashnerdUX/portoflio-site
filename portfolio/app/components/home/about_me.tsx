@@ -2,7 +2,7 @@ import React from 'react'
 
 export const AboutMe = () => {
   return (
-    <div className='mx-auto max-w-5xl'>
+    <div className='container mx-auto max-w-5xl'>
       <div className='flex flex-col gap-4'>
         <h2 className='text-foreground text-3xl md:text-4xl font-bold tracking-tight'>About Me</h2>
         {/* TODO: Work on this introduction */}
