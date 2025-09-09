@@ -7,7 +7,7 @@ interface NavLinkProps {
 }
 
 const sections = [
-  { href: '#hero-section', label: 'Hero' },
+  { href: '#hero-section', label: 'Home' },
   { href: '#about-me-section', label: 'About Me' },
   { href: '#skills-section', label: 'Skills' },
   { href: '#featured-projects-section', label: 'Featured Projects' },
