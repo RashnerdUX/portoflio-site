@@ -14,7 +14,7 @@ export const Index = () => {
     {/* Theme toggle button */}
     <Themetoggle />
     {/* Sticky sidebar navigation */}
-
+    <StickyNav />
     {/* Hero section */}
     <section id='hero-section'>
       <HeroSection />
