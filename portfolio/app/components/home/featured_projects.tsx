@@ -24,7 +24,7 @@ export const StackTiles: React.FC<StackTilesProps> = ({ labels }) => {
 }
 
 
-const image_placeholder = "/assets/images/web-app.png";
+const image_placeholder = "/images/web-app.png";
 
 interface ProjectCardProps {
     title: string;
@@ -48,8 +48,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, li
             <p className="text-muted-foreground text-base leading-relaxed mb-4">{description}</p>
             <StackTiles labels={stack_labels} />
             <div className="flex items-center space-x-4">
-                <a className="text-white bg-primary hover:bg-primary-900 font-medium  hover:font-bold rounded-full text-sm px-5 py-2.5 text-center transition-colors" href={live_link}>Live Demo</a>
-                <a className="text-muted-foreground hover:text-black font-medium text-sm" href={github_link}>GitHub</a>
+                <a className="text-white bg-primary hover:bg-primary-900 font-medium  hover:font-bold rounded-full text-sm px-5 py-2.5 text-center transition-colors" href={live_link} target='_blank'>Live Demo</a>
+                <a className="text-muted-foreground hover:text-black font-medium text-sm" href={github_link} target='_blank'>GitHub</a>
             </div>
         </div>
     </div>
@@ -60,37 +60,37 @@ const projects: ProjectCardProps[] = [
   {
     title: "Modella",
     description: "An AI-powered fashion stylist designed to help users create personalized outfits and style recommendations based on their preferences and current fashion trends.",
-    live_link: "https://modella.vercel.com",
+    live_link: "https://modella-kappa.vercel.app/",
     github_link: "https://github.com/RashnerdUX/modella",
     stack_labels: ['React', 'Django', 'PostgreSQL', 'AWS S3', 'Tailwind CSS'],
-    project_image: image_placeholder,
+    project_image: "/images/modella.png",
     reverse: false
   },
   {
     title: "Lynqup",
     description: "A mentorship platform that connects aspiring professionals with experienced mentors in their desired fields, facilitating knowledge sharing and career growth.",
-    live_link: "https://lynqup.netlify.com",
+    live_link: "https://lynqup.netlify.app/",
     github_link: "https://github.com/RashnerdUX/Lynqup",
     stack_labels: ['Django', 'Next.js', 'PostgreSQL', 'Tailwind CSS'],
-    project_image: "~/assets/images/web-app.png",
+    project_image: "/images/lynqup.png",
     reverse: true
   },
   {
     title: "Shared Activity Planner",
     description: "A personal project management tool for organizing events among friends and family. Users can open groups, delegate roles and tasks, and plan events collaboratively. Includes chat with async streaming for smooth communication.",
-    live_link: "",
-    github_link: "",
+    live_link: "#",
+    github_link: "https://github.com/RashnerdUX/shared_activity_planner",
     stack_labels: ['Django', 'React', 'PostgreSQL', 'WebSockets'],
-    project_image: "~/assets/images/web-app.png",
+    project_image: "/images/web-app.png",
     reverse: false
   },
   {
     title: "AI Career Assistant",
     description: "An AI-powered agent that helps early-career professionals with career advice and resources. Built using Gemini API and LangChain, exposed via FastAPI, with Gradio for MVP prototyping and React for the polished frontend.",
-    live_link: "",
-    github_link: "",
+    live_link: "#",
+    github_link: "https://github.com/RashnerdUX/cover-letter-assistant",
     stack_labels: ['FastAPI', 'LangChain', 'Gemini API', 'React', 'Gradio'],
-    project_image: "~/assets/images/web-app.png",
+    project_image: "/images/career-assistant.png",
     reverse: true
   },
 ];
