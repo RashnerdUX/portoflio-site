@@ -13,18 +13,20 @@
   --color-background: hsl(var(--background));
   --color-background-foreground: hsl(var(--background-foreground));
   --color-tertiary: hsl(var(--tertiary));
+  --color-card: hsl(var(--card));
 }
 
 @layer base {
   /* Light theme */
   :root {
     --primary: 270, 85%, 40%; /* Vibrant purple */
-    --primary-foreground: 210, 40%, 98%;
+    --primary-foreground: 0, 0%, 100%; /* White */
     --secondary: 210, 40%, 96%;
     --secondary-foreground: 222, 47%, 11%;
-    --background: 266, 17%, 8%;
-    --background-foreground: 210, 40%, 98%;
-    --tertiary: 269, 86%, 94%; /* Light purple */
+    --background: 270, 12%, 97%; /* Seasalt */
+    --background-foreground: 210, 90%, 4%; /* Rich Black */
+    --tertiary: 0, 0%, 92%; /* Silver */
+    --card: 0, 0%, 100%; /* Pure white*/
   }
 
   /* Dark theme */
@@ -33,19 +35,15 @@
     --primary-foreground: 222, 47%, 11%;
     --secondary: 222, 47%, 11%;
     --secondary-foreground: 210, 40%, 98%;
-    --background: 270, 12%, 97%;
+    --background: 266, 17%, 18%; /* Night */ 
     --background-foreground: 222, 47%, 11%;
     --tertiary: 268, 18%, 19%; /* Dark purple */
+    --card: 270, 26%, 9%; /* Raisin Black to show elevation*/
   }
 
   body {
-    @apply m-0 p-0 font-family text-base leading-6 text-primary-foreground;
+    @apply m-0 p-0 font-family text-base leading-6 text-background-foreground bg-background;
   }
-}
-
-html,
-body {
-  @apply bg-[#f7f6f8] dark:bg-[#141118];
 }
 
 @utility container {

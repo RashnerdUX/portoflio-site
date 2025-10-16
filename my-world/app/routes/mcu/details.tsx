@@ -1,6 +1,14 @@
 import React from 'react'
 import type { Route } from './+types/details';
 import { Loading } from '~/components/loadingIcon';
+import { QuickFacts } from '~/components/details_page/quick_facts';
+import { NavBar } from '~/components/navbar';
+import PopularReviews from '~/components/details_page/popular_reviews';
+import { CommunityRatings } from '~/components/details_page/community_ratings';
+import { SagaRelevance } from '~/components/details_page/saga_relevance';
+import { title } from 'process';
+import InfinityStonesBreakdown from '~/components/details_page/infinity_stones';
+import { CreatorReview } from '~/components/details_page/creator_review';
 
 export function meta({params}: Route.MetaArgs){
   return [
@@ -15,8 +23,22 @@ export function meta({params}: Route.MetaArgs){
 }
 
 export async function loader({params} : Route.LoaderArgs){
-  const movieDetails = "Details about " + params.movieName;
-  return { details: movieDetails };
+  const movieData = {
+    title: "Thor: The Dark World",
+    details: "Thor battles to save the Nine Realms from a shadowy enemy that predates the universe itself.",
+    posterUrl: "https://ntvb.tmsimg.com/assets/p9530219_v_h8_aa.jpg?w=1280&h=720",
+    review_headline: "A thrilling cosmic adventure with heart",
+    review_body: "Thor: The Dark World soars with breathtaking visuals and a gripping storyline that delves deep into the mythology of the Marvel Universe. Chris Hemsworth delivers a powerful performance as Thor, balancing action-packed sequences with moments of genuine emotion. The film's antagonist, Malekith, portrayed by Christopher Eccleston, brings a menacing presence that elevates the stakes. The chemistry between Thor and Jane Foster (Natalie Portman) adds a heartfelt dimension to the narrative. With its blend of epic battles, humor, and character development, Thor: The Dark World is a must-watch for fans of the franchise and newcomers alike.",
+    review_tags: ["Cosmic", "Heartbreaking"],
+  }
+  const movieReviews = [
+    { channel: "Rotten Tomatoes", rating: "94%" },
+    { channel: "IMDb", rating: "8.0/10" },
+    { channel: "Metacritic", rating: "75/100" },
+    { channel: "Letterboxd", rating: "3.8/5" },
+  ]
+  const community_ratings = { average: 2, count: 347 };
+  return { movieData: movieData, reviews: movieReviews, community_ratings: community_ratings };
 }
 
 export function HydrateFallBack(){
@@ -26,7 +48,65 @@ export function HydrateFallBack(){
 export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
   return (
     <div>
-      <h1>{loaderData.details}</h1>
+      <header className='py-4 px-12 border-b border-solid border-tertiary flex items-center justify-between'>
+        <div className='flex items-center justify-start'>
+          {/* Put an SVG Icon here later */}
+          <h1 className='text-lg'> The Index </h1>
+        </div>
+        <NavBar />
+      </header>
+      <main className="flex flex-col lg:flex-row gap-8 px-4 sm:px-10 py-8">
+        <section className='w-full' id='movie-details'>
+          <div className='flex-1 flex flex-col'>
+            {/* For the image */}
+            <div className='relative'>
+              <div className='bg-cover bg-center w-full min-h-[480px] rounded-xl' style={{ backgroundImage: `linear-gradient(0deg, rgba(20, 17, 24, 1) 0%, rgba(20, 17, 24, 0) 50%), url(${loaderData.movieData.posterUrl})` }}>
+                <div className='absolute bottom-4 left-4'>
+                  <h2 className='text-4xl font-bold text-white tracking-tight'>{loaderData.movieData.title}</h2>
+                  <p className='text-sm text-white/60'> {loaderData.movieData.details} </p>
+                </div>
+              </div>
+            </div>
+            {/* For the breakdown */}
+            <div className='p-4'>
+              <h3 className='text-2xl font-bold tracking-tight leading-tight border-b border-tertiary pb-2 pt-5 mb-4'> Infinity Stones Breakdown </h3>
+              {/* Infinity Stones Components */}
+              <InfinityStonesBreakdown />
+            </div>
+
+            {/* Creator's Review */}
+            <div className='p-4'>
+              <h3 className='text-2xl font-bold tracking-tight leading-tight border-b border-tertiary pb-2 pt-5 mb-4'> Creator's Review </h3>
+              {/* Creator's Review Component */}
+              <CreatorReview reviewHeadline={loaderData.movieData.review_headline} reviewText={loaderData.movieData.review_body} reviewTags={loaderData.movieData.review_tags} />
+            </div>
+          </div>
+        </section>
+        <aside className='w-full lg:w-80 flex-shrink-0'>
+          <div className='flex flex-col gap-4 bg-card border border-tertiary rounded-xl p-6'>
+            <div className='border-b border-tertiary'>
+              <h3 className='text-lg font-bold'> Movie Details </h3>
+              {/* Quick Facts Component */}
+              <QuickFacts phase={2} releaseDate='November 8, 2013' director='Alan Taylor' runtime='112 minutes'/>
+            </div>
+            <div className='border-b border-tertiary'>
+              <h3 className='text-lg font-bold'> Popular Reviews </h3>
+              {/* Reviews Component */}
+              <PopularReviews reviews={loaderData.reviews}/>
+            </div>
+            <div className='border-b border-tertiary'>
+              <h3 className='text-lg font-bold'> Community Ratings </h3>
+              {/* Community Ratings Component */}
+              <CommunityRatings aggregateRating={loaderData.community_ratings.average} noOfReviews={loaderData.community_ratings.count} />
+            </div>
+            <div className=''>
+              <h3 className='text-lg font-bold'> Saga Relevance </h3>
+              <p>Working on it</p>
+            </div>
+          </div>
+        </aside>
+      </main>
+      
     </div>
   )
 }
