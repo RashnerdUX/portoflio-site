@@ -2,13 +2,13 @@ import React from 'react'
 import type { Route } from './+types/details';
 import { Loading } from '~/components/loadingIcon';
 import { QuickFacts } from '~/components/details_page/quick_facts';
-import { NavBar } from '~/components/navbar';
 import PopularReviews from '~/components/details_page/popular_reviews';
 import { CommunityRatings } from '~/components/details_page/community_ratings';
 import { SagaRelevance } from '~/components/details_page/saga_relevance';
 import { title } from 'process';
 import InfinityStonesBreakdown from '~/components/details_page/infinity_stones';
 import { CreatorReview } from '~/components/details_page/creator_review';
+import { PageHeader } from '~/components/pageHeader';
 
 export function meta({params}: Route.MetaArgs){
   return [
@@ -48,13 +48,7 @@ export function HydrateFallBack(){
 export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
   return (
     <div>
-      <header className='py-4 px-12 border-b border-solid border-tertiary flex items-center justify-between'>
-        <div className='flex items-center justify-start'>
-          {/* Put an SVG Icon here later */}
-          <h1 className='text-lg'> The Index </h1>
-        </div>
-        <NavBar />
-      </header>
+      <PageHeader />
       <main className="flex flex-col lg:flex-row gap-8 px-4 sm:px-10 py-8">
         <section className='w-full' id='movie-details'>
           <div className='flex-1 flex flex-col'>
