@@ -1,37 +1,60 @@
-import React from 'react'
-import { Sun, Moon } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 
-export const Themetoggle = () => {
+export const ThemeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-//   Check local storage for theme preference on component mount
+  // On mount: detect theme preference
   useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
+    const theme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (theme === "dark" || (!theme && prefersDark)) {
+      document.documentElement.classList.add("dark");
       setIsDarkMode(true);
-    } else if (theme === 'light') {
-      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.remove("dark");
       setIsDarkMode(false);
     }
+
+    setMounted(true);
   }, []);
 
+  // Toggle theme manually
   const toggleTheme = () => {
-    if (isDarkMode) {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-      setIsDarkMode(false);
+    const newTheme = isDarkMode ? "light" : "dark";
+    localStorage.setItem("theme", newTheme);
+    setIsDarkMode(!isDarkMode);
+
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-      setIsDarkMode(true);
+      document.documentElement.classList.remove("dark");
     }
+    console.log("Theme changed to:", newTheme);
   };
 
+  if (!mounted) {
+    return (
+      <div className="cursor-pointer rounded-lg border border-primary/20 bg-primary/20 p-2">
+        <Moon className="text-gray-500 size-4" />
+      </div>
+    );
+  }
+
   return (
-    <div onClick={toggleTheme} className="cursor-pointer fixed bottom-5 right-5 z-50 rounded-full border border-slate-300 bg-white p-3 shadow-lg hover:shadow-xl transition-shadow dark:bg-gray-800">
-      {isDarkMode ? <Sun className='text-yellow-500 size-6'/> : <Moon className='text-gray-500 size-6'/>}
+    <div
+      onClick={toggleTheme}
+      className="cursor-pointer rounded-lg border border-primary/20 bg-primary/20 p-2"
+    >
+      {isDarkMode ? (
+        <Sun className="text-yellow-500 size-4" />
+      ) : (
+        <Moon className="text-gray-500 size-4" />
+      )}
     </div>
-  )
-}
+  );
+};
+
+export default ThemeToggle;
