@@ -1,8 +1,9 @@
 import React from 'react'
-import type { Route } from './+types/vote';
+import type { Route } from './+types/rateMovie';
 import { Loading } from '~/components/loadingIcon';
 import supabase from '~/superbaseclient';
 import { Form } from 'react-router';
+import { useRouteLoaderData, useParams } from "react-router";
 
 export function meta({ params }: Route.MetaArgs) {
   return [
@@ -11,16 +12,7 @@ export function meta({ params }: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const movieId = params.movieId;
-  return { movieId };
-}
-
-export function HydrateFallBack(){
-  return <Loading />;
-}
-
-export async function clientAction({request}: Route.ClientActionArgs){
+export async function action({request}: Route.ClientActionArgs){
   const formData = await request.formData();
   const vote = formData.get("vote");
   console.log("Vote received: ", vote);
@@ -28,13 +20,23 @@ export async function clientAction({request}: Route.ClientActionArgs){
 }
 
 
-export const VotingPage = ({
-  loaderData,
+export const VoteModal = ({
   actionData,
 }: Route.ComponentProps) => {
+
+  const params = useParams();
+  const movieId = params.movieId;
+
+  const data = useRouteLoaderData("MCUMovieDetail");
+  if (!data) {
+    return <Loading />;
+  }
+
+  const movie_data = data.movieData;
+
   return (
-    <div>
-      <h1>Vote for {loaderData.movieId}</h1>
+    <div className='h-full w-[300px]  bg-amber-400'>
+      <h1>Vote for {movie_data.title}</h1>
       <Form method='post'>
         <label htmlFor="vote">Your Vote:</label>
         <input type="text" name="vote" placeholder="Your Vote" />
@@ -44,4 +46,4 @@ export const VotingPage = ({
   )
 }
 
-export default VotingPage;
+export default VoteModal;
