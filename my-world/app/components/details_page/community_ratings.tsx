@@ -51,10 +51,10 @@ export const CommunityRatings: React.FC<CommunityRatingsProps> = ({ aggregateRat
     <div className='flex items-center gap-4 py-4' aria-label={`Community rating ${formattedRating} out of ${totalStars}`}>
       <div className='flex items-center gap-1'>{stars}</div>
       <div className='flex items-center gap-2'>
-        <span className='font-semibold text-lg text-gray-900 dark:text-gray-100'>
+        <span className='font-semibold text-lg text-foreground/80'>
             {formattedRating}</span>
         {typeof noOfReviews === 'number' && (
-          <span className='text-gray-500 dark:text-gray-400 text-sm'>({noOfReviews} reviews)</span>
+          <span className='text-foreground/40 text-sm'>({noOfReviews} reviews)</span>
         )}
       </div>
     </div>

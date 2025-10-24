@@ -17,7 +17,7 @@ export const NavBar = () => {
   };
 
   return (
-    <div>
+    <div> 
         <nav className='flex items-center justify-between'>
           {/* Logo/Brand - Empty for now */}
           <div></div>
@@ -35,7 +35,7 @@ export const NavBar = () => {
           <div className='flex lg:hidden items-center gap-4'>
             <button
               onClick={toggleMobileMenu}
-              className='p-2 rounded-lg border border-primary/40 bg-primary/20 text-secondary-foreground hover:bg-primary/80 transition-colors'
+              className='p-2 rounded-lg border border-primary/40 bg-primary/20 text-secondary-foreground hover:bg-primary/80 transition-colors relative z-[90]'
               aria-label='Toggle menu'
             >
               {isMobileMenuOpen ? (

@@ -33,8 +33,8 @@ export const InfinityStoneCard: React.FC<InfinityStoneCardProps> = ({ stoneName,
   return (
     <div className="flex flex-col bg-card p-4 gap-2 rounded-lg">
         <h3 className="text-lg font-semibold" style={{ color }}>{stoneName}</h3>
-        <span className="text-[32px] text-black/70 dark:text-white/70 font-bold leading-tight">{normalizedRating.toFixed(1)}</span>
-        <p className="text-base text-black/40 dark:text-white/40 font-medium">{description}</p>
+        <span className="text-[32px] text-foreground/70 font-bold leading-tight">{normalizedRating.toFixed(1)}</span>
+        <p className="text-base text-foreground/40 font-medium">{description}</p>
         <div className="w-full rounded-full bg-tertiary h-2.5 mt-3">
             <div
               className="h-full rounded-full transition-all duration-500 ease-out"

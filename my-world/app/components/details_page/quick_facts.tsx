@@ -15,8 +15,8 @@ interface QuickFactsTileProps {
 export const QuickFactsTile: React.FC<QuickFactsTileProps> = ({ title, value }) => {
     return (
         <div className='flex justify-between py-2'>
-            <h4 className='text-black/40 dark:text-white/60'>{title}:</h4>
-            <p className='text-black dark:text-white font-bold'>{value}</p>
+            <h4 className='text-foreground/40'>{title}:</h4>
+            <p className='text-foreground font-bold'>{value}</p>
         </div>
     );
 };
