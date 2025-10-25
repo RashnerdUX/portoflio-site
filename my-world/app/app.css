@@ -11,7 +11,7 @@
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-background: hsl(var(--background));
-  --color-background-foreground: hsl(var(--background-foreground));
+  --color-foreground: hsl(var(--foreground));
   --color-tertiary: hsl(var(--tertiary));
   --color-card: hsl(var(--card));
 }
@@ -24,7 +24,7 @@
     --secondary: 210, 40%, 96%;
     --secondary-foreground: 222, 47%, 11%;
     --background: 270, 12%, 97%; /* Seasalt */
-    --background-foreground: 210, 90%, 4%; /* Rich Black */
+    --foreground: 215, 28%, 17%; /* Rich Black */
     --tertiary: 0, 0%, 92%; /* Silver */
     --card: 0, 0%, 100%; /* Pure white*/
   }
@@ -32,17 +32,17 @@
   /* Dark theme */
   .dark {
     --primary: 270, 85%, 40%; /* Grape */
-    --primary-foreground: 222, 47%, 11%;
-    --secondary: 222, 47%, 11%;
+    --primary-foreground: 0, 100%, 100%; /* White */
+    --secondary: 222, 47%, 11%; 
     --secondary-foreground: 210, 40%, 98%;
-    --background: 270, 36%, 10%; /* Night */ 
-    --background-foreground: 0, 0%, 100%;
+    --background: 270, 36%, 10%; /* Dark Purple */ 
+    --foreground: 213, 13%, 91%; /* Anti-Flash White */
     --tertiary: 268, 18%, 19%; /* Dark purple */
     --card: 270, 26%, 9%; /* Raisin Black to show elevation*/
   }
 
   body {
-    @apply m-0 p-0 font-family text-base leading-6 text-background-foreground bg-background;
+    @apply m-0 p-0 font-family text-base leading-6 text-foreground bg-background;
   }
 }
 

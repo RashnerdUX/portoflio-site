@@ -89,7 +89,6 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
         {/* Hero Banner */}
         <HeroBanner />
 
-
         <div className='flex gap-8'>
           <div className='w-full lg:w-[75%] lg:px-8'>
             <div className='flex flex-col mb-4'>

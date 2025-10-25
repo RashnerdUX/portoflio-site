@@ -39,9 +39,9 @@ export const NavBar = () => {
               aria-label='Toggle menu'
             >
               {isMobileMenuOpen ? (
-                <X className='size-5 text-background-foreground font-bold' />
+                <X className='size-5 text-foreground font-bold' />
               ) : (
-                <Menu className='size-5 text-background-foreground font-bold' />
+                <Menu className='size-5 text-foreground font-bold' />
               )}
             </button>
           </div>
@@ -61,7 +61,7 @@ export const NavBar = () => {
               <div className='flex flex-col h-full'>
                 {/* Header with Theme Toggle */}
                 <div className='flex items-center justify-between p-4 border-b border-primary/20'>
-                  <h2 className='text-lg font-semibold text-background-foreground'>Menu</h2>
+                  <h2 className='text-lg font-semibold text-foreground'>Menu</h2>
                   <ThemeToggle />
                 </div>
 
@@ -82,7 +82,7 @@ export const NavBar = () => {
                       <a
                         href='#watch-order'
                         onClick={closeMobileMenu}
-                        className='flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 text-background-foreground transition-colors'
+                        className='flex items-center gap-3 p-3 rounded-lg hover:bg-primary/10 text-foreground transition-colors'
                       >
                         <span className='text-lg'>📺</span>
                         <span className='font-medium'>Watch Order</span>
@@ -92,7 +92,7 @@ export const NavBar = () => {
                       <a
                         href='https://www.kelvinakhigbe.com'
                         onClick={closeMobileMenu}
-                        className='flex items-center gap-3 p-3 rounded-lg bg-primary/10 hover:bg-primary/20 text-background-foreground transition-colors'
+                        className='flex items-center gap-3 p-3 rounded-lg bg-primary/10 hover:bg-primary/20 text-foreground transition-colors'
                       >
                         <span className='text-lg'>💼</span>
                         <span className='font-medium'>My Portfolio</span>

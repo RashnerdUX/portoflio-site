@@ -1,14 +1,16 @@
 import React from 'react'
+import { Outlet } from "react-router";
 import type { Route } from './+types/details';
 import { Loading } from '~/components/loadingIcon';
 import { QuickFacts } from '~/components/details_page/quick_facts';
 import PopularReviews from '~/components/details_page/popular_reviews';
 import { CommunityRatings } from '~/components/details_page/community_ratings';
 import { SagaRelevance } from '~/components/details_page/saga_relevance';
-import { title } from 'process';
 import InfinityStonesBreakdown from '~/components/details_page/infinity_stones';
 import { CreatorReview } from '~/components/details_page/creator_review';
 import { PageHeader } from '~/components/pageHeader';
+import { DetailButtons } from '~/components/details_page/detail_buttons';
+import { useNavigate } from "react-router";
 
 export function meta({params}: Route.MetaArgs){
   return [
@@ -46,6 +48,20 @@ export function HydrateFallBack(){
 }
 
 export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
+  const navigate = useNavigate();
+
+  const rateMovie = () => {
+    navigate("rate-movie/", { state: { background: location } });
+    console.log("Rate Movie clicked");
+  }
+
+  const rewatchNow = () => {
+    console.log("Rewatch Now clicked");
+  }
+
+  const markAsFavorite = () => {
+    console.log("Mark As Favorite clicked");
+  }
   return (
     <div>
       <PageHeader />
@@ -63,7 +79,7 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
             </div>
             {/* For the breakdown */}
             <div className='p-4'>
-              <h3 className='text-2xl font-bold tracking-tight leading-tight border-b border-tertiary pb-2 pt-5 mb-4'> Infinity Stones Breakdown </h3>
+              <h3 className='text-2xl font-bold tracking-tight leading-tight border-b border-tertiary pb-2 pt-5 mb-4 text-foreground'> Infinity Stones Breakdown </h3>
               {/* Infinity Stones Components */}
               <InfinityStonesBreakdown />
             </div>
@@ -84,6 +100,10 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
               <QuickFacts phase={2} releaseDate='November 8, 2013' director='Alan Taylor' runtime='112 minutes'/>
             </div>
             <div className='border-b border-tertiary'>
+              {/* Buttons Component */}
+              <DetailButtons rateMovie={rateMovie} rewatchNow={rewatchNow} markAsFavorite={markAsFavorite} />
+            </div>
+            <div className='border-b border-tertiary'>
               <h3 className='text-lg font-bold'> Popular Reviews </h3>
               {/* Reviews Component */}
               <PopularReviews reviews={loaderData.reviews}/>
@@ -101,6 +121,7 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
         </aside>
       </main>
       
+      <Outlet />
     </div>
   )
 }
