@@ -1,7 +1,6 @@
 import React from 'react'
 import type { Route } from './+types/rateMovie';
 import { Loading } from '~/components/loadingIcon';
-import supabase from '~/superbaseclient';
 import { Form, useNavigate } from 'react-router';
 import { useRouteLoaderData, useParams } from "react-router";
 import { X } from 'lucide-react';
