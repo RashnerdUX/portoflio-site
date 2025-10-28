@@ -1,8 +1,6 @@
 import React from 'react'
 import type {Route} from './+types/index';
 import { Loading } from '~/components/loadingIcon';
-import { release } from 'os';
-import { PageHeader } from '~/components/pageHeader';
 import MovieCard from '~/components/index_page/movie_card';
 import ProgressBar from '~/components/index_page/progress_bar';
 import OrdrerNavigation from '~/components/index_page/order_navigation';
@@ -81,9 +79,6 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
 
   return (
     <div>
-      {/* Header for the page */}
-      <PageHeader />
-
       {/* Main Content */}
       <main className='flex flex-col flex-1 py-4 px-4 sm:px-6 lg:px-16 gap-8'>
         {/* Hero Banner */}

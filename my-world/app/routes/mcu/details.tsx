@@ -8,7 +8,6 @@ import { CommunityRatings } from '~/components/details_page/community_ratings';
 import { SagaRelevance } from '~/components/details_page/saga_relevance';
 import InfinityStonesBreakdown from '~/components/details_page/infinity_stones';
 import { CreatorReview } from '~/components/details_page/creator_review';
-import { PageHeader } from '~/components/pageHeader';
 import { DetailButtons } from '~/components/details_page/detail_buttons';
 import { useNavigate } from "react-router";
 
@@ -67,7 +66,6 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
   }
   return (
     <div>
-      <PageHeader />
       <main className="flex flex-col lg:flex-row gap-8 px-4 sm:px-10 py-8">
         <section className='w-full' id='movie-details'>
           <div className='flex-1 flex flex-col'>
