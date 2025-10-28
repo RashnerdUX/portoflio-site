@@ -4,6 +4,6 @@ export default [
     index("routes/home.tsx"),
     route("/mcu-index", "routes/mcu/index.tsx", {id: "MCUMovieIndex"}),
     route("/detail/:movieId/:movieName", "routes/mcu/details.tsx", {id: "MCUMovieDetail"},[
-        route("rate-movie/", "routes/mcu/rateMovie.tsx", {id: "MCUMovieVote"}),
+        route("rate-movie/", "routes/mcu/@modal.rateMovie.tsx", {id: "MCUMovieVote"}),
     ],),
 ] satisfies RouteConfig;
