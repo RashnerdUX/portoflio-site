@@ -6,18 +6,48 @@ import { useRouteLoaderData, useParams } from "react-router";
 import { X } from 'lucide-react';
 import { StoneRating } from '~/components/vote_page/stone_rating';
 import { CustomSlider } from "../../components/customSlider";
+import {CustomTooltip} from '~/components/tooltip';
 
 export function meta({ params }: Route.MetaArgs) {
+  const data = useRouteLoaderData("MCUMovieDetail");
+  const movie_data = data ? data.movieData : null;
   return [
-    { title: "Rate the movie " + params.movieName },
-    { name: "description", content: "Rate the movie " + params.movieName },
+    { title: "Rate " + movie_data?.title },
+    { name: "description", content: "Rate " + movie_data?.title + " with the Infinity Stones and contribute to the Index" },
   ];
 }
 
 export async function action({request}: Route.ClientActionArgs){
   const formData = await request.formData();
+  // Debug the formdata
+  console.log("FormData: ", formData);
+
+  // Get the stone ratings
   const spaceRating = formData.get("spaceStone");
+  const timeRating = formData.get("timeStone");
+  const realityRating = formData.get("realityStone");
+  const powerRating = formData.get("powerStone");
+  const mindRating = formData.get("mindStone");
+  const soulRating = formData.get("soulStone");
+
+  // Get the TVA and Saga ratings
+  const tvaRating = formData.get("TVA");
+  const sagaRating = formData.get("Saga");
+
+  // Finally get the review text
+  const reviewText = formData.get("review");
+
+  // Debug log all ratings
+  console.log("The rating for time stone: ", timeRating);
+  console.log("The rating for reality stone: ", realityRating);
   console.log("The rating for space stone: ", spaceRating);
+  console.log("The rating for power stone: ", powerRating);
+  console.log("The rating for mind stone: ", mindRating);
+  console.log("The rating for soul stone: ", soulRating);
+  console.log("The TVA Rating: ", tvaRating);
+  console.log("The Saga Rating: ", sagaRating);
+  console.log("The Review Text: ", reviewText);
+
   return null;
 }
 
@@ -74,7 +104,7 @@ export const VoteModal = ({
             {/* Infinity Breakdown */}
             <div className='grid grid-cols-2 gap-y-4 gap-x-6'>
               {stones.map((stone) => (
-                  <StoneRating key={stone.name} name={stone.label} tooltipInfo={stone.tooltip} color={stone.color} />
+                  <StoneRating key={stone.name} name={stone.label} inputName={stone.name} tooltipInfo={stone.tooltip} color={stone.color} />
               ))}
             </div>
 
@@ -92,7 +122,9 @@ export const VoteModal = ({
 
             {/* User Review */}
             <div className='mt-6'>
-              <h3 className="text-white text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
+              <div className='flex gap-2 items-center justify-center'>
+                <h3 className="text-white text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
+              </div>
               <textarea
                 id="review"
                 name="review"

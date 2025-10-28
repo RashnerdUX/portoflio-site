@@ -4,6 +4,7 @@ import { RatingBar } from '../vote_page/ratingBar';
 
 interface StoneRatingProps {
   name: string;
+  inputName: string;
   tooltipInfo: string;
   color: string;
   defaultValue?: number;
@@ -11,6 +12,7 @@ interface StoneRatingProps {
 
 export const StoneRating = ({
   name,
+  inputName,
   tooltipInfo,
   color,
   defaultValue = 0,
@@ -39,7 +41,7 @@ export const StoneRating = ({
       {/* Segmented Rating Bar */}
       <div className="">
         <RatingBar
-          name={name}
+          name={inputName}
           defaultValue={defaultValue}
           color={color}
           onChange={setRating}
