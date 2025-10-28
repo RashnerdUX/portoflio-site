@@ -21,6 +21,15 @@ export async function action({request}: Route.ClientActionArgs){
   return null;
 }
 
+const stones = [
+    { name: 'spaceStone', label: 'Space', tooltip: 'Cinematography & World-building', color: '#3b82f6' },
+    { name: 'mindStone', label: 'Mind', tooltip: 'Plot & Screenplay', color: '#facc15' },
+    { name: 'realityStone', label: 'Reality', tooltip: 'Visual Effects & Production Design', color: '#dc2626' },
+    { name: 'powerStone', label: 'Power', tooltip: 'Performances & Action', color: '#9333ea' },
+    { name: 'timeStone', label: 'Time', tooltip: 'Pacing & Editing', color: '#22c55e' },
+    { name: 'soulStone', label: 'Soul', tooltip: 'Emotional Impact & Score', color: '#f97316' }
+];
+
 
 export const VoteModal = ({
   actionData,
@@ -64,12 +73,9 @@ export const VoteModal = ({
           <Form method='post'>
             {/* Infinity Breakdown */}
             <div className='grid grid-cols-2 gap-y-4 gap-x-6'>
-              <StoneRating name="SpaceStone" tooltipInfo="World Building" />
-              <StoneRating name="TimeStone" tooltipInfo="Time Manipulation" />
-              <StoneRating name="RealityStone" tooltipInfo="Reality Alteration" />
-              <StoneRating name="PowerStone" tooltipInfo="Power Amplification" />
-              <StoneRating name="MindStone" tooltipInfo="Mind Control" />
-              <StoneRating name="SoulStone" tooltipInfo="Soul Connection" />
+              {stones.map((stone) => (
+                  <StoneRating key={stone.name} name={stone.label} tooltipInfo={stone.tooltip} color={stone.color} />
+              ))}
             </div>
 
             {/* TVA Rating */}
