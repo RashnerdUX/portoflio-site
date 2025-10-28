@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import type { Route } from './+types/details';
 import { Loading } from '~/components/loadingIcon';
 import { QuickFacts } from '~/components/details_page/quick_facts';
@@ -49,8 +49,11 @@ export function HydrateFallBack(){
 
 export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const rateMovie = () => {
+    console.log("Current location:", location);
+    console.log("Opening Rate Movie Modal");
     navigate("rate-movie/", { state: { background: location } });
     console.log("Rate Movie clicked");
   }
