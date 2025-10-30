@@ -6,4 +6,5 @@ export default [
     route("/detail/:movieId/:movieName", "routes/mcu/details.tsx", {id: "MCUMovieDetail"},[
         route("rate-movie/", "routes/mcu/rateMovie.tsx", {id: "MCUMovieVote"}),
     ],),
+    route("/watchlist", "routes/mcu/watchlist.tsx", {id: "MCUWatchlist"}),
 ] satisfies RouteConfig;

@@ -19,8 +19,8 @@ export const NavBar = () => {
   }
 
   const mobileMenuItems = [
-    { name: 'Home', href: '/' },
-    { name: 'Watch Order', href: '/about' },
+    { name: 'Home', href: '/mcu-index' },
+    { name: 'Watch Order', href: '/watchlist' },
     { name: 'Portfolio', href: 'https://www.kelvinakhigbe.com' },
   ];
 

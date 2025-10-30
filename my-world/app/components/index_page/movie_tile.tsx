@@ -19,3 +19,5 @@ export const MovieTile: React.FC<MovieTileProps> = ({ title, posterUrl }) => {
         </div>
   )
 }
+
+export default MovieTile;
