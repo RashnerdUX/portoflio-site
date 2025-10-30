@@ -3,6 +3,7 @@ import type { Route } from './+types/watchlist';
 import { Loading } from '~/components/loadingIcon';
 import WatchOrder from '~/components/watch_order/watchOrder';
 import { loadProgress } from '~/utils/db';
+import { useNavigate } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -39,6 +40,33 @@ export function HydrateFallBack() {
 
 export const WatchOrderPage = ({loaderData} : Route.ComponentProps) => {
     const [selectedOrder, setSelectedOrder] = useState<string>('chronological');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+      const mq = window.matchMedia("(min-width: 768px)");
+
+      // The function that changes the route
+      const handleNavigation = (e: MediaQueryListEvent | MediaQueryList) => {
+        if (e.matches) {
+          navigate("/mcu-index");
+        }
+      };
+      
+      // Check on mount
+      if (mq.matches) {
+        navigate("/mcu-index");
+      }
+      
+      // Run the function on media query change
+      handleNavigation(mq);
+      // Listen for changes
+      mq.addEventListener("change", handleNavigation);
+
+      return () => {
+        mq.removeEventListener("change", handleNavigation);
+      };
+    }, [navigate]);
 
     const handleOrderChange = (newOrder: string) => {
         setSelectedOrder(newOrder);
