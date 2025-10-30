@@ -15,9 +15,9 @@ export function meta({}: Route.MetaArgs ) {
 
 export async function loader({} : Route.LoaderArgs){
   const mcuList = [
-    { id: 1, title: "Iron Man", releaseYear: 2008, phase: 1, chronologicalOrder: 3, synopsis: "After being kidnapped and forced to build weapons, billionaire and genius inventor Tony Stark instead creates a high-tech suit of armor to escape captivity. Returning to the United States, Stark refines the suit and decides to use his new creation to combat crime and terrorism, becoming the superhero Iron Man.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://posterspy.com/wp-content/uploads/2021/03/Iron_Man-200th_Poster.jpg", aggregratedRating: 4.5, slug: "iron-man"},
-    { id: 2, title: "Guardians of The Galaxy Vol. 3", releaseYear: 2023, phase: 4, chronologicalOrder: 22, synopsis: "Peter Quill, still grieving the loss of Gamora, must rally his team for a mission to defend the universe and protect one of their own. This pivotal mission could determine the future of the Guardians as a team, as they confront a villain from Rocket's past who threatens everything.", sagaRelevance: "Canon MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/9UQMzjDgkapYMrwmvNNSVpAnjsV.jpg", aggregratedRating: 4.8, slug: "guardians-of-the-galaxy-volume-3"},
-    { id:3, title: "Captain America Winter Soldier", releaseYear: 2014, phase: 2, chronologicalOrder: 9, synopsis: "Steve Rogers, also known as Captain America, is living quietly in Washington, D.C., trying to adjust to the modern world. But when a SHIELD colleague is attacked, he becomes embroiled in a web of intrigue that threatens to put the world at risk.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/8Zy8g8g8g8g8g8g8g8g8g8g8g8g8g8g8.jpg", aggregratedRating: 4.3, slug: "captain-america-the-winter-soldier"},
+    { id: 1, title: "Iron Man", releaseYear: 2008, phase: 1, chronologicalOrder: 3, synopsis: "After being kidnapped and forced to build weapons, billionaire and genius inventor Tony Stark instead creates a high-tech suit of armor to escape captivity. Returning to the United States, Stark refines the suit and decides to use his new creation to combat crime and terrorism, becoming the superhero Iron Man.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://posterspy.com/wp-content/uploads/2021/03/Iron_Man-200th_Poster.jpg", aggregatedRating: 4.5, slug: "iron-man"},
+    { id: 2, title: "Guardians of The Galaxy Vol. 3", releaseYear: 2023, phase: 4, chronologicalOrder: 22, synopsis: "Peter Quill, still grieving the loss of Gamora, must rally his team for a mission to defend the universe and protect one of their own. This pivotal mission could determine the future of the Guardians as a team, as they confront a villain from Rocket's past who threatens everything.", sagaRelevance: "Canon MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/9UQMzjDgkapYMrwmvNNSVpAnjsV.jpg", aggregatedRating: 4.8, slug: "guardians-of-the-galaxy-volume-3"},
+    { id:3, title: "Captain America Winter Soldier", releaseYear: 2014, phase: 2, chronologicalOrder: 9, synopsis: "Steve Rogers, also known as Captain America, is living quietly in Washington, D.C., trying to adjust to the modern world. But when a SHIELD colleague is attacked, he becomes embroiled in a web of intrigue that threatens to put the world at risk.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/8Zy8g8g8g8g8g8g8g8g8g8g8g8g8g8g8.jpg", aggregatedRating: 4.3, slug: "captain-america-the-winter-soldier"},
   ];
   console.log("Loaded from the Server: ");
   return { listOfMovies: mcuList, initialProgress: null };
@@ -96,7 +96,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
         <HeroBanner />
 
         <div className='flex gap-8'>
-          <div className='w-full lg:w-[75%] lg:px-8'>
+          <div className='w-full md:w-[60%]lg:w-[75%] lg:px-8'>
             <div className='flex flex-col mb-4'>
               <h1 className='text-xl font-bold text-secondary-foreground'> Ranking </h1>
               <p className='text-secondary-foreground/70'>Here you can find the ranking of all MCU movies based on our unique rating system.</p>
@@ -169,7 +169,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
             )}
           </div>
 
-          <aside className='hidden lg:block w-[25%]'>
+          <aside className='hidden md:w-[40%] md:block w-[25%]'>
             <WatchOrder initialProgress={loaderData.initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={sortedMovies} />
         </aside>
         </div>
