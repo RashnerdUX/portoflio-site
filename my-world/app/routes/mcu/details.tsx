@@ -1,5 +1,5 @@
 import React from 'react'
-import { Outlet, useLocation } from "react-router";
+import { Outlet, useLocation, useNavigate } from "react-router";
 import type { Route } from './+types/details';
 import { Loading } from '~/components/loadingIcon';
 import { QuickFacts } from '~/components/details_page/quick_facts';
@@ -9,7 +9,6 @@ import { SagaRelevance } from '~/components/details_page/saga_relevance';
 import InfinityStonesBreakdown from '~/components/details_page/infinity_stones';
 import { CreatorReview } from '~/components/details_page/creator_review';
 import { DetailButtons } from '~/components/details_page/detail_buttons';
-import { useNavigate } from "react-router";
 
 export function meta({params}: Route.MetaArgs){
   return [
@@ -31,15 +30,16 @@ export async function loader({params} : Route.LoaderArgs){
     review_headline: "A thrilling cosmic adventure with heart",
     review_body: "Thor: The Dark World soars with breathtaking visuals and a gripping storyline that delves deep into the mythology of the Marvel Universe. Chris Hemsworth delivers a powerful performance as Thor, balancing action-packed sequences with moments of genuine emotion. The film's antagonist, Malekith, portrayed by Christopher Eccleston, brings a menacing presence that elevates the stakes. The chemistry between Thor and Jane Foster (Natalie Portman) adds a heartfelt dimension to the narrative. With its blend of epic battles, humor, and character development, Thor: The Dark World is a must-watch for fans of the franchise and newcomers alike.",
     review_tags: ["Cosmic", "Heartbreaking"],
+    coreReviews: [
+      { channel: "Rotten Tomatoes", rating: "94%" },
+      { channel: "IMDb", rating: "8.0/10" },
+      { channel: "Metacritic", rating: "75/100" },
+      { channel: "Letterboxd", rating: "3.8/5" },
+    ],
+    community_ratings: { average: 2, count: 347 },
   }
-  const movieReviews = [
-    { channel: "Rotten Tomatoes", rating: "94%" },
-    { channel: "IMDb", rating: "8.0/10" },
-    { channel: "Metacritic", rating: "75/100" },
-    { channel: "Letterboxd", rating: "3.8/5" },
-  ]
-  const community_ratings = { average: 2, count: 347 };
-  return { movieData: movieData, reviews: movieReviews, community_ratings: community_ratings };
+
+  return { movieData: movieData };
 }
 
 export function HydrateFallBack(){
@@ -49,6 +49,13 @@ export function HydrateFallBack(){
 export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Need to get the data from the Index page
+  const movie = location.state?.movieData;
+  console.log("Movie Data from location state:", movie);
+
+  // Load movie data from loader if unavailable e.g when the page is sent to someone else
+  const movieData = movie || loaderData.movieData;
 
   const rateMovie = () => {
     console.log("Current location:", location);
@@ -71,10 +78,10 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
           <div className='flex-1 flex flex-col'>
             {/* For the image */}
             <div className='relative'>
-              <div className='bg-cover bg-center w-full min-h-[480px] rounded-xl' style={{ backgroundImage: `linear-gradient(0deg, rgba(20, 17, 24, 1) 0%, rgba(20, 17, 24, 0) 50%), url(${loaderData.movieData.posterUrl})` }}>
+              <div className='bg-cover bg-center w-full min-h-[480px] rounded-xl' style={{ backgroundImage: `linear-gradient(0deg, rgba(20, 17, 24, 1) 0%, rgba(20, 17, 24, 0) 50%), url(${movieData.posterUrl})` }}>
                 <div className='absolute bottom-4 left-4'>
-                  <h2 className='text-4xl font-bold text-white tracking-tight'>{loaderData.movieData.title}</h2>
-                  <p className='text-sm text-white/60'> {loaderData.movieData.details} </p>
+                  <h2 className='text-4xl font-bold text-white tracking-tight'>{movieData.title}</h2>
+                  <p className='text-sm text-white/60'> {movieData.details} </p>
                 </div>
               </div>
             </div>
@@ -89,7 +96,7 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
             <div className='p-4'>
               <h3 className='text-2xl font-bold tracking-tight leading-tight border-b border-tertiary pb-2 pt-5 mb-4'> Creator's Review </h3>
               {/* Creator's Review Component */}
-              <CreatorReview reviewHeadline={loaderData.movieData.review_headline} reviewText={loaderData.movieData.review_body} reviewTags={loaderData.movieData.review_tags} />
+              <CreatorReview reviewHeadline={movieData.review_headline} reviewText={movieData.review_body} reviewTags={movieData.review_tags} />
             </div>
           </div>
         </section>
@@ -107,12 +114,12 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
             <div className='border-b border-tertiary'>
               <h3 className='text-lg font-bold'> Popular Reviews </h3>
               {/* Reviews Component */}
-              <PopularReviews reviews={loaderData.reviews}/>
+              <PopularReviews reviews={movieData.coreReviews}/>
             </div>
             <div className='border-b border-tertiary'>
               <h3 className='text-lg font-bold'> Community Ratings </h3>
               {/* Community Ratings Component */}
-              <CommunityRatings aggregateRating={loaderData.community_ratings.average} noOfReviews={loaderData.community_ratings.count} />
+              <CommunityRatings aggregateRating={movieData.community_ratings.average} noOfReviews={movieData.community_ratings.count} />
             </div>
             <div className=''>
               <h3 className='text-lg font-bold'> Saga Relevance </h3>
