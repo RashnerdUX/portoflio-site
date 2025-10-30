@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { HiOutlineInformationCircle } from 'react-icons/hi2'
 
 interface TooltipProps {
@@ -6,8 +6,15 @@ interface TooltipProps {
 }
 
 export const CustomTooltip = ({ tooltipInfo }: TooltipProps) => {
+
+  const [isHovered, setIsHovered] = useState(false)
   return (
-     <div className="relative inline-block group cursor-help">
+     <div className="relative inline-block group cursor-help"
+      onMouseEnter={()=> setIsHovered(true)}
+      onMouseLeave={()=> setIsHovered(false)}
+      onFocus={()=> setIsHovered(true)}
+      onBlur={()=> setIsHovered(false)}
+     >
         <HiOutlineInformationCircle className="size-4 text-foreground/50" />
         <span className="hidden px-2 py-1 bg-tertiary text-foreground/80 text-center text-[10px] leading-[1.5] rounded shadow-md absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 transition-all duration-300 translate-y-1 group-hover:block group-hover:opacity-100 group-hover:translate-y-0">
         {tooltipInfo}

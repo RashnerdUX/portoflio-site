@@ -1,9 +1,9 @@
 import React from 'react'
 import type {Route} from './+types/index';
 import { Loading } from '~/components/loadingIcon';
-import MovieCard from '~/components/index_page/movie_card';
+import { MovieCard } from '~/components/index_page/movie_card';
 import { HeroBanner } from '~/components/index_page/hero_banner';
-import WatchOrder from '~/components/watch_order/watchOrder';
+import { WatchOrder } from '~/components/watch_order/watchOrder';
 import { loadProgress } from '~/utils/db';
 
 export function meta({}: Route.MetaArgs ) {
@@ -96,7 +96,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
         <HeroBanner />
 
         <div className='flex gap-8'>
-          <div className='w-full md:w-[60%]lg:w-[75%] lg:px-8'>
+          <div className='w-full md:w-[60%] lg:w-[75%] lg:px-8'>
             <div className='flex flex-col mb-4'>
               <h1 className='text-xl font-bold text-secondary-foreground'> Ranking </h1>
               <p className='text-secondary-foreground/70'>Here you can find the ranking of all MCU movies based on our unique rating system.</p>

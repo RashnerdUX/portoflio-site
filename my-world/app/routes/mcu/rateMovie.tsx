@@ -1,14 +1,12 @@
 import React from 'react'
 import type { Route } from './+types/rateMovie';
 import { Loading } from '~/components/loadingIcon';
-import { Form, useNavigate } from 'react-router';
-import { useRouteLoaderData, useParams } from "react-router";
+import { Form, useNavigate , useRouteLoaderData, useParams } from "react-router";
 import { X } from 'lucide-react';
 import { StoneRating } from '~/components/vote_page/stone_rating';
 import { CustomSlider } from "../../components/customSlider";
-import {CustomTooltip} from '~/components/tooltip';
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({ params, loaderData }: Route.MetaArgs) {
   const data = useRouteLoaderData("MCUMovieDetail");
   const movie_data = data ? data.movieData : null;
   return [

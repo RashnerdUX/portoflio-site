@@ -6,7 +6,7 @@ export interface Movie {
   synopsis: string;
   sagaRelevance: string;
   tvaRating: string;
-  posterUrl: string;
+  posterUrl?: string;
   aggregatedRating: number;
   slug: string;
 }

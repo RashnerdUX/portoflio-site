@@ -31,9 +31,11 @@ export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sort
 
   // Save to Indexed DB whenever user updates their watchlist
   useEffect(() => {
-    if (Object.keys(watchedMovies).length > 0) {
-      saveProgress(watchedMovies);
-    }
+    const persist = async () => {
+      await saveProgress(watchedMovies);
+    };
+
+    void persist();
   }, [watchedMovies]);
 
   // Handle toggling watched status

@@ -1,5 +1,4 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
 import { Predeploy } from "~/pre-deploy/predeploy";
 
 export function meta({}: Route.MetaArgs) {

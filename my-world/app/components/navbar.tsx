@@ -95,11 +95,36 @@ export const NavBar = () => {
               {/* Main Mobile Items */}
               <div className='flex flex-col items-center justify-center flex-grow'>
                 <div className='flex flex-col gap-12 items-center justify-center'>
-                  {mobileMenuItems.map((item) => (
-                    <NavLink key={item.name} to={item.href} className={({ isActive, isPending }) => `text-2xl font-medium ${isActive ? 'text-primary' : 'text-foreground/90'} ${isActive ? 'font-bold' : 'font-normal'} focus:text-foreground transition-colors duration-200`} onClick={closeMenu}>
-                      {item.name}
-                    </NavLink>
-                  ))}
+                  {mobileMenuItems.map((item) => {
+                    const baseClasses = 'text-2xl font-medium focus:text-foreground transition-colors duration-200';
+                    const isExternal = /^https?:\/\//i.test(item.href);
+
+                    if (isExternal) {
+                      return (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={`${baseClasses} text-foreground/90 font-normal hover:text-primary`}
+                          onClick={closeMenu}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {item.name}
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <NavLink
+                        key={item.name}
+                        to={item.href}
+                        className={({ isActive }) => `${baseClasses} ${isActive ? 'text-primary font-bold' : 'text-foreground/90 font-normal'}`}
+                        onClick={closeMenu}
+                      >
+                        {item.name}
+                      </NavLink>
+                    );
+                  })}
                 </div>
               </div>
 
