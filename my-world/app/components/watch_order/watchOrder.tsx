@@ -1,9 +1,11 @@
-import React, {useState} from 'react' 
+import React, {useState, useEffect} from 'react' 
 import { OrderNavigation } from '../index_page/order_navigation';
 import ProgressBar from '../index_page/progress_bar';
 import MovieTile from '../index_page/movie_tile';
+import { saveProgress } from '~/utils/db';
 
 interface WatchOrderProps {
+  initialProgress: Record<number, boolean>;
   selectedOrder: string;
   onOrderChange: (order: string) => void;
   sortedMovies: Array<{
@@ -13,14 +15,26 @@ interface WatchOrderProps {
   }>;
 }
 
-export const WatchOrder = ({ selectedOrder, onOrderChange, sortedMovies }: WatchOrderProps) => {
+export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sortedMovies }: WatchOrderProps) => {
 
   // Monitor watched progress
-  const [watchedMovies, setWatchedMovies] = useState<Record<number, boolean>>({});
+  const [watchedMovies, setWatchedMovies] = useState<Record<number, boolean>>(initialProgress || {});
+
+  // Update the default watchedMovies when initialProgress changes
+  useEffect(() => {
+    setWatchedMovies(initialProgress ?? {});
+  }, [initialProgress]);
 
   // Calculate Progress
   const watchedCount = Object.values(watchedMovies).filter(Boolean).length;
   const progress = sortedMovies.length > 0 ? (watchedCount / sortedMovies.length) * 100 : 0;
+
+  // Save to Indexed DB whenever user updates their watchlist
+  useEffect(() => {
+    if (Object.keys(watchedMovies).length > 0) {
+      saveProgress(watchedMovies);
+    }
+  }, [watchedMovies]);
 
   // Handle toggling watched status
   const handleToggleWatched = (id: number) => {

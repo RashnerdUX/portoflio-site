@@ -1,7 +1,8 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import type { Route } from './+types/watchlist';
 import { Loading } from '~/components/loadingIcon';
 import WatchOrder from '~/components/watch_order/watchOrder';
+import { loadProgress } from '~/utils/db';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,8 +17,21 @@ export async function loader({}: Route.LoaderArgs) {
         { id: 2 , title: "Guardians of The Galaxy Vol. 3", releaseYear: 2023, phase: 4, chronologicalOrder: 22, synopsis: "Peter Quill, still grieving the loss of Gamora, must rally his team for a mission to defend the universe and protect one of their own. This pivotal mission could determine the future of the Guardians as a team, as they confront a villain from Rocket's past who threatens everything.", sagaRelevance: "Canon MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/9UQMzjDgkapYMrwmvNNSVpAnjsV.jpg", aggregratedRating: 4.8},
         { id: 3, title: "Captain America Winter Soldier", releaseYear: 2014, phase: 2, chronologicalOrder: 9, synopsis: "Steve Rogers, also known as Captain America, is living quietly in Washington, D.C., trying to adjust to the modern world. But when a SHIELD colleague is attacked, he becomes embroiled in a web of intrigue that threatens to put the world at risk.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/8Zy8g8g8g8g8g8g8g8g8g8g8g8g8g8g8.jpg", aggregratedRating: 4.3}
     ];
-  return { watchlist: mcuList };
+
+    console.log("Loaded from the Server: ");
+  return { watchlist: mcuList, initialProgress: null };
 }
+
+export async function clientLoader({serverLoader, params}: Route.ClientLoaderArgs) {
+  const serverData = await serverLoader();
+  const saved = await loadProgress();
+
+  console.log("Loaded progress from IndexedDB: ", saved);
+  return { watchlist: serverData.watchlist, initialProgress: saved };
+}
+
+// This ensures the clientLoader also works 
+clientLoader.hydrate = true as const;
 
 export function HydrateFallBack() {
   return <Loading />;
@@ -31,9 +45,11 @@ export const WatchOrderPage = ({loaderData} : Route.ComponentProps) => {
         console.log("Selected order changed to: ", newOrder);
     }
 
-      const sortedMovies = React.useMemo(() => {
-        const movies = [...loaderData.watchlist]
-        
+    const { watchlist, initialProgress } = loaderData;
+
+    const sortedMovies = React.useMemo(() => {
+        const movies = [...watchlist]
+
         switch (selectedOrder) {
           case 'chronological':
             // Sort by in-universe chronological order
@@ -55,12 +71,12 @@ export const WatchOrderPage = ({loaderData} : Route.ComponentProps) => {
           default:
             return movies
         }
-      }, [loaderData.watchlist, selectedOrder])
+      }, [watchlist, selectedOrder])
 
   return (
     <>
         <main className='flex flex-col flex-1 py-4 px-4 sm:px-6 lg:px-16 gap-8'>
-            <WatchOrder selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={sortedMovies} />
+            <WatchOrder initialProgress={initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={sortedMovies} />
         </main>
     </>
   )
