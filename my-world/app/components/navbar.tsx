@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react';
 import { X } from 'lucide-react';
 import ThemeToggle from './themeToggle';
 import { NavLink } from 'react-router';
+import MobileThemeToggle from './mobileThemeToggle';
 
 export const NavBar = () => {
 
@@ -62,7 +63,7 @@ export const NavBar = () => {
 
             {/* Mobile Menu Button */}
             <div className='md:hidden'>
-              <button className='p-2 rounded-md text-primary-foreground hover:bg-primary/80 transition-colors' onClick={isMenuOpen ? closeMenu : openMenu} aria-label='Toggle Menu'>
+              <button className='p-2 rounded-md text-foreground hover:bg-primary/80 transition-colors' onClick={isMenuOpen ? closeMenu : openMenu} aria-label='Toggle Menu'>
                 {isMenuOpen ? <X className='size-6' /> : <Menu className='size-6'/>}
               </button> 
             </div>
@@ -87,7 +88,7 @@ export const NavBar = () => {
               <div className="flex justify-between">
                 {/* Add the Logo */}
                 <h2 className='text-lg font-bold text-foreground/90 hover:text-foreground transition-colors duration-200 mr-auto self-center'>The Index</h2>
-                <button className="p-2 rounded-md text-primary-foreground hover:bg-primary/80 transition-colors" onClick={closeMenu} aria-label="Close Menu">
+                <button className="p-2 rounded-md text-foreground hover:bg-primary/80 transition-colors" onClick={closeMenu} aria-label="Close Menu">
                   <X className='size-6' />
                 </button>
               </div>
@@ -129,16 +130,19 @@ export const NavBar = () => {
               </div>
 
               {/* Social Links */}
-              <div className='flex items-center justify-between py-4'>
-                {socialLinks.map((link) => (
-                  <a 
-                    key={link.name}
-                    href={link.href}
-                    className='text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200'
-                  >
-                    {link.name}
-                  </a>
-                ))}
+              <div className='flex flex-col gap-2'>
+                <MobileThemeToggle />
+                <div className='flex items-center justify-between py-4'>
+                  {socialLinks.map((link) => (
+                    <a 
+                      key={link.name}
+                      href={link.href}
+                      className='text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200'
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
               </div>
             </nav>
         </div>

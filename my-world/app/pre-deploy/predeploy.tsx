@@ -9,7 +9,7 @@ export const Predeploy = () => {
         <p className='mt-4 text-lg text-foreground/70'>Begin your Watch Journey Here</p>
       </div>
 
-      <Link to={"mcu-index"} className='bg-primary w-auto py-2 px-6 rounded-md transition-all hover:bg-primary/80'> Enter the Index</Link>
+      <Link to={"mcu-index"} className='bg-primary text-primary-foreground w-auto py-2 px-6 rounded-md transition-all hover:bg-primary/80'> Enter the Index</Link>
     </div>
   )
 }

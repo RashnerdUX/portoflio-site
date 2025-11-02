@@ -99,7 +99,7 @@ export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sort
                   {/* Buttons */}
                   <div className="mt-4 pt-4 border-t border-primary/10 bg-card/80 backdrop-blur-sm">
                     <div className="flex gap-2">
-                      <button className="flex-1 text-xs font-bold py-2.5 px-3 rounded-md bg-primary/60 hover:bg-primary text-secondary-foreground transition-colors" onClick={handleMarkAllWatched}>Mark All Watched</button>
+                      <button className="flex-1 text-xs font-bold py-2.5 px-3 rounded-md bg-primary/60 hover:bg-primary text-primary-foreground transition-colors" onClick={handleMarkAllWatched}>Mark All Watched</button>
                       <button className="flex-1 text-xs font-bold py-2.5 px-3 rounded-md bg-background/50 hover:bg-background/80 text-secondary-foreground/50 transition-colors" onClick={handleResetProgress}>Reset Progress</button>
                     </div>
                   </div>

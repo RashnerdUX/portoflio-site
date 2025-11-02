@@ -102,7 +102,7 @@ export const DetailsPage = ({loaderData} : Route.ComponentProps) => {
             {/* For the image */}
             <div className='relative'>
               <div className='bg-cover md:bg-contain w-full min-h-[480px] rounded-xl' style={{ backgroundImage: `linear-gradient(0deg, rgba(20, 17, 24, 1) 0%, rgba(20, 17, 24, 0) 50%), url(${movieData.poster_url})` }}>
-                <div className='absolute bottom-4 left-4'>
+                <div className='absolute bottom-4 left-4 pr-2'>
                   <h2 className='text-4xl font-bold text-white tracking-tight'>{movieData.title}</h2>
                   <p className='text-sm text-white/60'> {movieData.synopsis} </p>
                 </div>

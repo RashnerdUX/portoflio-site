@@ -10,7 +10,7 @@ interface RadioButtonProps {
 
 const RadioButton: React.FC<RadioButtonProps> = ({ label, value, name, isChecked, onChange }) => {
   return (
-    <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:shadow-[0_0_8px_hsl(var(--primary)/0.5)] has-[:checked]:text-secondary-foreground text-secondary-foreground/70 text-sm font-medium leading-normal transition-all duration-300 hover:text-foreground">
+    <label className="flex cursor-pointer h-full grow items-center justify-center overflow-hidden rounded-md px-2 has-[:checked]:bg-primary has-[:checked]:shadow-[0_0_8px_hsl(var(--primary)/0.5)] has-[:checked]:text-primary-foreground text-secondary-foreground/70 text-sm font-medium leading-normal transition-all duration-300 hover:text-secondary-foreground">
       <span className="truncate">{label}</span>
       <input 
         className="invisible w-0" 

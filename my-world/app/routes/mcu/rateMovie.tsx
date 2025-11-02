@@ -121,7 +121,7 @@ export const VoteModal = ({
         {/* Main content */}
         <div className='relative p-6 sm:p-8 max-h-[90vh] overflow-y-auto'>
           <div className="text-center mb-6">
-            <h2 className="text-white text-2xl sm:text-3xl font-bold leading-tight tracking-tight">Rate the Movie</h2>
+            <h2 className="text-foreground text-2xl sm:text-3xl font-bold leading-tight tracking-tight">Rate the Movie</h2>
             <p className="text-primary text-xl font-medium">{movie_data.title}</p>
           </div>
           <Form method='post'>
@@ -147,7 +147,7 @@ export const VoteModal = ({
             {/* User Review */}
             <div className='mt-6'>
               <div className='flex gap-2 items-center justify-center'>
-                <h3 className="text-white text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
+                <h3 className="text-foreground text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
               </div>
               <textarea
                 id="review"
@@ -160,7 +160,7 @@ export const VoteModal = ({
 
             {/* Submit Button */}
             <div className='mt-6'>
-              <button type="submit" className="w-full bg-primary text-white rounded-lg py-2 hover:bg-primary/80 transition-all duration-300">
+              <button type="submit" className="w-full bg-primary text-primary-foreground rounded-lg py-2 hover:bg-primary/80 transition-all duration-300">
                 Submit Your Ratings
               </button>
             </div>
