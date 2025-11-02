@@ -1,10 +1,14 @@
 import React from 'react'
+import { useSearchParams } from 'react-router'
 import type {Route} from './+types/index';
 import { Loading } from '~/components/loadingIcon';
-import MovieCard from '~/components/index_page/movie_card';
+import { MovieCard } from '~/components/index_page/movie_card';
 import { HeroBanner } from '~/components/index_page/hero_banner';
-import WatchOrder from '~/components/watch_order/watchOrder';
+import { WatchOrder } from '~/components/watch_order/watchOrder';
 import { loadProgress } from '~/utils/db';
+import supabase  from "app/utils/supabase.server"
+import type { Movie } from '~/types/movie';
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 export function meta({}: Route.MetaArgs ) {
   return [
@@ -13,22 +17,96 @@ export function meta({}: Route.MetaArgs ) {
   ]
 }
 
-export async function loader({} : Route.LoaderArgs){
-  const mcuList = [
-    { id: 1, title: "Iron Man", releaseYear: 2008, phase: 1, chronologicalOrder: 3, synopsis: "After being kidnapped and forced to build weapons, billionaire and genius inventor Tony Stark instead creates a high-tech suit of armor to escape captivity. Returning to the United States, Stark refines the suit and decides to use his new creation to combat crime and terrorism, becoming the superhero Iron Man.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://posterspy.com/wp-content/uploads/2021/03/Iron_Man-200th_Poster.jpg", aggregatedRating: 4.5, slug: "iron-man"},
-    { id: 2, title: "Guardians of The Galaxy Vol. 3", releaseYear: 2023, phase: 4, chronologicalOrder: 22, synopsis: "Peter Quill, still grieving the loss of Gamora, must rally his team for a mission to defend the universe and protect one of their own. This pivotal mission could determine the future of the Guardians as a team, as they confront a villain from Rocket's past who threatens everything.", sagaRelevance: "Canon MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/9UQMzjDgkapYMrwmvNNSVpAnjsV.jpg", aggregatedRating: 4.8, slug: "guardians-of-the-galaxy-volume-3"},
-    { id:3, title: "Captain America Winter Soldier", releaseYear: 2014, phase: 2, chronologicalOrder: 9, synopsis: "Steve Rogers, also known as Captain America, is living quietly in Washington, D.C., trying to adjust to the modern world. But when a SHIELD colleague is attacked, he becomes embroiled in a web of intrigue that threatens to put the world at risk.", sagaRelevance: "Core MCU", tvaRating: "Approved", posterUrl: "https://media.themoviedb.org/t/p/w440_and_h660_face/8Zy8g8g8g8g8g8g8g8g8g8g8g8g8g8g8.jpg", aggregatedRating: 4.3, slug: "captain-america-the-winter-soldier"},
-  ];
-  console.log("Loaded from the Server: ");
-  return { listOfMovies: mcuList, initialProgress: null };
+export async function loader({ request } : Route.LoaderArgs){
+  const url = new URL(request.url);
+  const page = Math.max(1, Number(url.searchParams.get('page') ?? '1'));
+  const watchOrderSelection = (url.searchParams.get('order') ?? 'chronological') as 'chronological' | 'release' | 'phase';
+  const itemsPerPage = 10;
+  const offset = (page - 1) * itemsPerPage;
+
+  // Fetch paginated list of MCU movies ordered by aggregate score
+  const { data: paginatedMovies, error, count } = await supabase
+    .from('marvel_movies_with_defaults')
+    .select('*', { count: 'exact' })
+    .order('gauntlet_average_rating', { ascending: false })
+    .range(offset, offset + itemsPerPage - 1);
+
+  if (error) {
+    console.error("Error fetching MCU movies from Supabase:", error);
+    throw new Error("Failed to load MCU movies");
+  }
+
+  const normalizedMovies: Movie[] = (paginatedMovies ?? []).map((movie) => ({
+    id: movie.id ?? '',
+    title: movie.title ?? 'Untitled',
+    release_year: movie.release_year ?? 0,
+    phase: movie.phase ?? 0,
+    synopsis: movie.synopsis ?? 'Synopsis unavailable.',
+    saga_relevance: movie.saga_tier ?? 'Unknown Tier',
+    tva_rating: movie.tva_status ?? 'Unknown Status',
+    poster_url: movie.poster_url ?? '/images/placeholder.png',
+    gauntlet_average_rating: Number(movie.gauntlet_average_rating ?? 0),
+    slug: movie.slug ?? '',
+  })).filter((movie) => movie.id && movie.slug);
+
+  // Determine ordering for watch order list
+  const watchOrderColumns: Record<string, Array<{ column: string; ascending: boolean }>> = {
+    chronological: [{ column: 'chronological_order', ascending: true }],
+    release: [{ column: 'release_year', ascending: true }],
+    phase: [
+      { column: 'phase', ascending: true },
+      { column: 'release_year', ascending: true },
+    ],
+  };
+
+  const ordering = watchOrderColumns[watchOrderSelection] ?? watchOrderColumns.chronological;
+
+  let watchOrderQuery = supabase
+    .from('marvel_movies_with_defaults')
+    .select('id,title,poster_url,phase,release_year,chronological_order');
+
+  ordering.forEach(({ column, ascending }) => {
+    watchOrderQuery = watchOrderQuery.order(column, { ascending });
+  });
+
+  const { data: watchOrderMovies, error: watchOrderError } = await watchOrderQuery;
+
+  if (watchOrderError) {
+    console.error("Error fetching watch order data from Supabase:", watchOrderError);
+    throw new Error("Failed to load watch order data");
+  }
+
+  const watchOrderList = (watchOrderMovies ?? []).reduce<Array<{ id: string; title: string; poster_url: string | null }>>((acc, movie) => {
+    if (!movie?.id || !movie?.title) {
+      return acc;
+    }
+
+    acc.push({
+      id: movie.id,
+      title: movie.title,
+      poster_url: movie.poster_url ?? null,
+    });
+
+    return acc;
+  }, []);
+
+  return {
+    listOfMovies: normalizedMovies,
+    totalCount: count ?? paginatedMovies?.length ?? 0,
+    currentPage: page,
+    itemsPerPage,
+    watchOrder: watchOrderList,
+    watchOrderOrder: watchOrderSelection,
+    initialProgress: null,
+  };
 }
 
-export async function clientLoader({serverLoader, params} : Route.ClientLoaderArgs){
+export async function clientLoader({ serverLoader } : Route.ClientLoaderArgs){
   const serverData = await serverLoader();
   const saved = await loadProgress();
 
   console.log("Loaded progress from IndexedDB: ", saved);
-  return { listOfMovies: serverData.listOfMovies, initialProgress: saved };
+  return { ...serverData, initialProgress: saved ?? serverData.initialProgress };
 }
 
 // Ensure the client loader also loads on mount
@@ -39,53 +117,38 @@ export function HydrateFallBack(){
 }
 
 export const IndexPage = ({loaderData} : Route.ComponentProps) => {
-  const [selectedOrder, setSelectedOrder] = React.useState<string>('chronological')
-  const [currentPage, setCurrentPage] = React.useState<number>(1)
-  const itemsPerPage = 10 // Show 10 movies per page
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedOrder, setSelectedOrder] = React.useState<string>(loaderData.watchOrderOrder ?? 'chronological');
+  const [currentPage, setCurrentPage] = React.useState<number>(loaderData.currentPage ?? 1);
 
-  // Sort movies based on selected order
-  const sortedMovies = React.useMemo(() => {
-    const movies = [...loaderData.listOfMovies]
-    
-    switch (selectedOrder) {
-      case 'chronological':
-        // Sort by in-universe chronological order
-        return movies.sort((a, b) => a.chronologicalOrder - b.chronologicalOrder)
-      
-      case 'release':
-        // Sort by release year
-        return movies.sort((a, b) => a.releaseYear - b.releaseYear)
-      
-      case 'phase':
-        // Sort by phase, then by release year within each phase
-        return movies.sort((a, b) => {
-          if (a.phase === b.phase) {
-            return a.releaseYear - b.releaseYear
-          }
-          return a.phase - b.phase
-        })
-      
-      default:
-        return movies
-    }
-  }, [loaderData.listOfMovies, selectedOrder])
+  React.useEffect(() => {
+    setSelectedOrder(loaderData.watchOrderOrder ?? 'chronological');
+  }, [loaderData.watchOrderOrder]);
 
-  // Pagination Values
-  const totalPages = Math.ceil(sortedMovies.length / itemsPerPage)
-  const startIndex = (currentPage - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
-  const paginatedMovies = loaderData.listOfMovies.slice(startIndex, endIndex)
+  React.useEffect(() => {
+    setCurrentPage(loaderData.currentPage ?? 1);
+  }, [loaderData.currentPage]);
+
+  const paginatedMovies = (loaderData.listOfMovies ?? []) as Movie[];
+  const startIndex = (loaderData.currentPage - 1) * loaderData.itemsPerPage;
+  const totalPages = Math.max(1, Math.ceil((loaderData.totalCount ?? paginatedMovies.length) / loaderData.itemsPerPage));
 
   const handleOrderChange = (order: string) => {
-    // Change sorting order on Watch Order tab
-    setSelectedOrder(order)
+    setSelectedOrder(order);
+    const params = new URLSearchParams(searchParams);
+    params.set('order', order);
+    params.set('page', '1');
+    setSearchParams(params);
   }
 
   const handlePageChange = (page: number) => {
-    // Change the current page
-    setCurrentPage(page)
-    // Scroll to top of movie list
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (page < 1 || page > totalPages) return;
+    setCurrentPage(page);
+    const params = new URLSearchParams(searchParams);
+    params.set('page', String(page));
+    params.set('order', selectedOrder);
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   return (
@@ -96,7 +159,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
         <HeroBanner />
 
         <div className='flex gap-8'>
-          <div className='w-full md:w-[60%]lg:w-[75%] lg:px-8'>
+          <div className='w-full md:w-[60%] lg:w-[75%] lg:px-8'>
             <div className='flex flex-col mb-4'>
               <h1 className='text-xl font-bold text-secondary-foreground'> Ranking </h1>
               <p className='text-secondary-foreground/70'>Here you can find the ranking of all MCU movies based on our unique rating system.</p>
@@ -119,7 +182,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
                   disabled={currentPage === 1}
                   className='px-4 py-2 rounded-md bg-background/50 hover:bg-background/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
                 >
-                  Previous
+                  <IoIosArrowBack className="inline-block size-5" />
                 </button>
 
                 {/* Page Numbers */}
@@ -163,14 +226,14 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
                   disabled={currentPage === totalPages}
                   className='px-4 py-2 rounded-md bg-background/50 hover:bg-background/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
                 >
-                  Next
+                  <IoIosArrowForward className="inline-block size-5" />
                 </button>
               </div>
             )}
           </div>
 
-          <aside className='hidden md:w-[40%] md:block w-[25%]'>
-            <WatchOrder initialProgress={loaderData.initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={sortedMovies} />
+          <aside className='hidden md:w-[40%] md:block lg:w-[25%]'>
+            <WatchOrder initialProgress={loaderData.initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={loaderData.watchOrder ?? []} />
         </aside>
         </div>
       </main>

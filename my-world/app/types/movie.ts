@@ -1,12 +1,12 @@
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
-  releaseYear: number;
+  release_year: number;
   phase: number;
   synopsis: string;
-  sagaRelevance: string;
-  tvaRating: string;
-  posterUrl: string;
-  aggregatedRating: number;
+  saga_relevance: string;
+  tva_rating: string;
+  poster_url?: string;
+  gauntlet_average_rating: number;
   slug: string;
 }

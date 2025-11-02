@@ -1,14 +1,13 @@
 import React from 'react'
 import type { Route } from './+types/rateMovie';
 import { Loading } from '~/components/loadingIcon';
-import { Form, useNavigate } from 'react-router';
-import { useRouteLoaderData, useParams } from "react-router";
+import { Form, useNavigate , useRouteLoaderData, useParams, redirect } from "react-router";
 import { X } from 'lucide-react';
 import { StoneRating } from '~/components/vote_page/stone_rating';
 import { CustomSlider } from "../../components/customSlider";
-import {CustomTooltip} from '~/components/tooltip';
+import supabase from 'app/utils/supabase.server';
 
-export function meta({ params }: Route.MetaArgs) {
+export function meta({ params, loaderData }: Route.MetaArgs) {
   const data = useRouteLoaderData("MCUMovieDetail");
   const movie_data = data ? data.movieData : null;
   return [
@@ -17,10 +16,13 @@ export function meta({ params }: Route.MetaArgs) {
   ];
 }
 
-export async function action({request}: Route.ClientActionArgs){
+export async function action({request, params}: Route.ClientActionArgs){
   const formData = await request.formData();
   // Debug the formdata
   console.log("FormData: ", formData);
+  const movieId = params.movieId;
+  const movieName = params.movieName;
+  console.log("Movie ID: ", movieId);
 
   // Get the stone ratings
   const spaceRating = formData.get("spaceStone");
@@ -48,7 +50,29 @@ export async function action({request}: Route.ClientActionArgs){
   console.log("The Saga Rating: ", sagaRating);
   console.log("The Review Text: ", reviewText);
 
-  return null;
+  // Send to the UserRating table in Supabase
+  const payload = {
+    movie_id: movieId ?? null,
+    space_stone: typeof spaceRating === 'string' ? Number(spaceRating) : null,
+    time_stone: typeof timeRating === 'string' ? Number(timeRating) : null,
+    reality_stone: typeof realityRating === 'string' ? Number(realityRating) : null,
+    power_stone: typeof powerRating === 'string' ? Number(powerRating) : null,
+    mind_stone: typeof mindRating === 'string' ? Number(mindRating) : null,
+    soul_stone: typeof soulRating === 'string' ? Number(soulRating) : null,
+    tva_score: typeof tvaRating === 'string' ? Number(tvaRating) : null,
+    saga_score: typeof sagaRating === 'string' ? Number(sagaRating) : null,
+    user_review: typeof reviewText === 'string' ? reviewText : null, // match column name
+  };
+
+  const { data, error } = await supabase.from('user_ratings').insert(payload).select();
+
+  if (error) {
+    console.error("Error inserting user rating:", error);
+    throw new Error("Failed to submit rating");
+  }
+
+  console.log("Successfully inserted user rating:", data);
+  return redirect(`/mcu-index/detail/${movieId}/${movieName}`);
 }
 
 const stones = [
@@ -87,7 +111,7 @@ export const VoteModal = ({
       <div className='relative w-full max-w-md mx-4 md:mx-auto bg-background rounded-2xl border border-primary/20 shadow-2xl shadow-primary/20 overflow-hidden no-scrollbar'>
 
         {/* Background radial */}
-        <div className="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style={{ backgroundImage: "radial-gradient(circle at center, rgba(102, 15, 189, 0.2) 0%, rgba(102, 15, 189, 0) 70%)" }}></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style={{ backgroundImage: "var(--color-ratemodal-gradient)" }} ></div>
 
         {/* Close button */}
         <button className="absolute top-4 right-4 z-50 text-foreground/80 hover:text-foreground transition-colors" onClick={closeModal}>
@@ -97,7 +121,7 @@ export const VoteModal = ({
         {/* Main content */}
         <div className='relative p-6 sm:p-8 max-h-[90vh] overflow-y-auto'>
           <div className="text-center mb-6">
-            <h2 className="text-white text-2xl sm:text-3xl font-bold leading-tight tracking-tight">Rate the Movie</h2>
+            <h2 className="text-foreground text-2xl sm:text-3xl font-bold leading-tight tracking-tight">Rate the Movie</h2>
             <p className="text-primary text-xl font-medium">{movie_data.title}</p>
           </div>
           <Form method='post'>
@@ -123,7 +147,7 @@ export const VoteModal = ({
             {/* User Review */}
             <div className='mt-6'>
               <div className='flex gap-2 items-center justify-center'>
-                <h3 className="text-white text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
+                <h3 className="text-foreground text-lg font-bold mb-3 text-center">Your Mini Verdict (Optional)</h3>
               </div>
               <textarea
                 id="review"
@@ -136,7 +160,7 @@ export const VoteModal = ({
 
             {/* Submit Button */}
             <div className='mt-6'>
-              <button type="submit" className="w-full bg-primary text-white rounded-lg py-2 hover:bg-primary/80 transition-all duration-300">
+              <button type="submit" className="w-full bg-primary text-primary-foreground rounded-lg py-2 hover:bg-primary/80 transition-all duration-300">
                 Submit Your Ratings
               </button>
             </div>

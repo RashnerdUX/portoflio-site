@@ -38,7 +38,7 @@ export const RatingBar = ({
           const isHovered = hoveredValue !== null && value <= hoveredValue;
           const isBeyondSelected = value > selectedValue;
           
-          let bgColor = '#2c2541';
+          let bgColor = 'hsl(var(--tertiary))';
           let boxShadow = 'none';
           
           if (isHovered) {
@@ -48,7 +48,7 @@ export const RatingBar = ({
             bgColor = color;
             boxShadow = `0 0 8px 1px ${color}`;
           } else if (hoveredValue === null && !isBeyondSelected) {
-            bgColor = '#2c2541';
+            bgColor = 'hsl(var(--tertiary))';
           }
           
           return (

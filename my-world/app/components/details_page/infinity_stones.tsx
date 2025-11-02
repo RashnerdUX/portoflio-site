@@ -50,17 +50,22 @@ export const InfinityStoneCard: React.FC<InfinityStoneCardProps> = ({ stoneName,
 }
 
 interface InfinityStonesBreakdownProps {
-    ratings: [];
+    power_stone_avg: number;
+    space_stone_avg: number;
+    reality_stone_avg: number;
+    mind_stone_avg: number;
+    time_stone_avg: number;
+    soul_stone_avg: number;
 }
 
-export const InfinityStonesBreakdown: React.FC = () => {
+export const InfinityStonesBreakdown: React.FC<InfinityStonesBreakdownProps> = ({power_stone_avg, space_stone_avg, reality_stone_avg, mind_stone_avg, time_stone_avg, soul_stone_avg}) => {
   const stones = [
-    { stoneName: "Power Stone", description: "Action and Spectacle", rating: 3, color: "#a755f7" },
-    { stoneName: "Space Stone", description: "Worldbuilding", rating: 4, color: "#3b82f6" },
-    { stoneName: "Reality Stone", description: "Visual Effects", rating: 2, color: "#ee4444" },
-    { stoneName: "Mind Stone", description: "Complexity and Depth", rating: 3.4, color: "#f9cc1a" },
-    { stoneName: "Time Stone", description: "Rewatch Value", rating: 2, color: "#25c460" },
-    { stoneName: "Soul Stone", description: "Emotion and Connection", rating: 5, color: "#f97216" },
+    { stoneName: "Power Stone", description: "Action and Spectacle", rating: power_stone_avg, color: "#a755f7" },
+    { stoneName: "Space Stone", description: "Worldbuilding", rating: space_stone_avg, color: "#3b82f6" },
+    { stoneName: "Reality Stone", description: "Visual Effects", rating: reality_stone_avg, color: "#ee4444" },
+    { stoneName: "Mind Stone", description: "Complexity and Depth", rating: mind_stone_avg, color: "#f9cc1a" },
+    { stoneName: "Time Stone", description: "Rewatch Value", rating: time_stone_avg, color: "#25c460" },
+    { stoneName: "Soul Stone", description: "Emotion and Connection", rating: soul_stone_avg, color: "#f97216" },
   ];
 
     return (

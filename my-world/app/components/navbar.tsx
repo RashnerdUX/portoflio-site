@@ -3,6 +3,7 @@ import { Menu } from 'lucide-react';
 import { X } from 'lucide-react';
 import ThemeToggle from './themeToggle';
 import { NavLink } from 'react-router';
+import MobileThemeToggle from './mobileThemeToggle';
 
 export const NavBar = () => {
 
@@ -35,7 +36,7 @@ export const NavBar = () => {
       {/* Navbar */}
       <nav className='sticky top-0 bg-background border-b border-b-tertiary backdrop-blur-md z-50'>
         {/* Main container */}
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8'>
           {/* Navbar Content */}
           <div className='flex items-center justify-between h-16'>
 
@@ -62,7 +63,7 @@ export const NavBar = () => {
 
             {/* Mobile Menu Button */}
             <div className='md:hidden'>
-              <button className='p-2 rounded-md text-primary-foreground hover:bg-primary/80 transition-colors' onClick={isMenuOpen ? closeMenu : openMenu} aria-label='Toggle Menu'>
+              <button className='p-2 rounded-md text-foreground hover:bg-primary/80 transition-colors' onClick={isMenuOpen ? closeMenu : openMenu} aria-label='Toggle Menu'>
                 {isMenuOpen ? <X className='size-6' /> : <Menu className='size-6'/>}
               </button> 
             </div>
@@ -87,7 +88,7 @@ export const NavBar = () => {
               <div className="flex justify-between">
                 {/* Add the Logo */}
                 <h2 className='text-lg font-bold text-foreground/90 hover:text-foreground transition-colors duration-200 mr-auto self-center'>The Index</h2>
-                <button className="p-2 rounded-md text-primary-foreground hover:bg-primary/80 transition-colors" onClick={closeMenu} aria-label="Close Menu">
+                <button className="p-2 rounded-md text-foreground hover:bg-primary/80 transition-colors" onClick={closeMenu} aria-label="Close Menu">
                   <X className='size-6' />
                 </button>
               </div>
@@ -95,25 +96,53 @@ export const NavBar = () => {
               {/* Main Mobile Items */}
               <div className='flex flex-col items-center justify-center flex-grow'>
                 <div className='flex flex-col gap-12 items-center justify-center'>
-                  {mobileMenuItems.map((item) => (
-                    <NavLink key={item.name} to={item.href} className={({ isActive, isPending }) => `text-2xl font-medium ${isActive ? 'text-primary' : 'text-foreground/90'} ${isActive ? 'font-bold' : 'font-normal'} focus:text-foreground transition-colors duration-200`} onClick={closeMenu}>
-                      {item.name}
-                    </NavLink>
-                  ))}
+                  {mobileMenuItems.map((item) => {
+                    const baseClasses = 'text-2xl font-medium focus:text-foreground transition-colors duration-200';
+                    const isExternal = /^https?:\/\//i.test(item.href);
+
+                    if (isExternal) {
+                      return (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          className={`${baseClasses} text-foreground/90 font-normal hover:text-primary`}
+                          onClick={closeMenu}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {item.name}
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <NavLink
+                        key={item.name}
+                        to={item.href}
+                        className={({ isActive }) => `${baseClasses} ${isActive ? 'text-primary font-bold' : 'text-foreground/90 font-normal'}`}
+                        onClick={closeMenu}
+                      >
+                        {item.name}
+                      </NavLink>
+                    );
+                  })}
                 </div>
               </div>
 
               {/* Social Links */}
-              <div className='flex items-center justify-between py-4'>
-                {socialLinks.map((link) => (
-                  <a 
-                    key={link.name}
-                    href={link.href}
-                    className='text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200'
-                  >
-                    {link.name}
-                  </a>
-                ))}
+              <div className='flex flex-col gap-2'>
+                <MobileThemeToggle />
+                <div className='flex items-center justify-between py-4'>
+                  {socialLinks.map((link) => (
+                    <a 
+                      key={link.name}
+                      href={link.href}
+                      className='text-sm font-medium text-foreground/60 hover:text-foreground transition-colors duration-200'
+                    >
+                      {link.name}
+                    </a>
+                  ))}
+                </div>
               </div>
             </nav>
         </div>
