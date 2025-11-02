@@ -74,7 +74,7 @@ export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sort
 
   return (
     <>
-  <div className='relative bg-card border border-primary/20 rounded-xl p-4' style={{ backgroundImage: 'radial-gradient(circle at top, rgba(102, 15, 189, 0.15), transparent 60%)' }}>
+  <div className='relative bg-card border border-primary/20 rounded-xl p-4' style={{ backgroundImage: 'var(--color-watchorder-gradient)'}}>
             <h2 className='text-lg font-bold mb-4 text-secondary-foreground'> Watch Order </h2>
                 {/* Progress Bar */}
                 <div className='mb-4'>

@@ -111,7 +111,7 @@ export const VoteModal = ({
       <div className='relative w-full max-w-md mx-4 md:mx-auto bg-background rounded-2xl border border-primary/20 shadow-2xl shadow-primary/20 overflow-hidden no-scrollbar'>
 
         {/* Background radial */}
-        <div className="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style={{ backgroundImage: "radial-gradient(circle at center, rgba(102, 15, 189, 0.2) 0%, rgba(102, 15, 189, 0) 70%)" }}></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-no-repeat bg-center" style={{ backgroundImage: "var(--color-ratemodal-gradient)" }} ></div>
 
         {/* Close button */}
         <button className="absolute top-4 right-4 z-50 text-foreground/80 hover:text-foreground transition-colors" onClick={closeModal}>
