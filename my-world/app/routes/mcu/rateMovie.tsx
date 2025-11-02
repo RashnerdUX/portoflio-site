@@ -1,10 +1,11 @@
 import React from 'react'
 import type { Route } from './+types/rateMovie';
 import { Loading } from '~/components/loadingIcon';
-import { Form, useNavigate , useRouteLoaderData, useParams } from "react-router";
+import { Form, useNavigate , useRouteLoaderData, useParams, redirect } from "react-router";
 import { X } from 'lucide-react';
 import { StoneRating } from '~/components/vote_page/stone_rating';
 import { CustomSlider } from "../../components/customSlider";
+import supabase from 'app/utils/supabase.server';
 
 export function meta({ params, loaderData }: Route.MetaArgs) {
   const data = useRouteLoaderData("MCUMovieDetail");
@@ -15,10 +16,13 @@ export function meta({ params, loaderData }: Route.MetaArgs) {
   ];
 }
 
-export async function action({request}: Route.ClientActionArgs){
+export async function action({request, params}: Route.ClientActionArgs){
   const formData = await request.formData();
   // Debug the formdata
   console.log("FormData: ", formData);
+  const movieId = params.movieId;
+  const movieName = params.movieName;
+  console.log("Movie ID: ", movieId);
 
   // Get the stone ratings
   const spaceRating = formData.get("spaceStone");
@@ -46,7 +50,29 @@ export async function action({request}: Route.ClientActionArgs){
   console.log("The Saga Rating: ", sagaRating);
   console.log("The Review Text: ", reviewText);
 
-  return null;
+  // Send to the UserRating table in Supabase
+  const payload = {
+    movie_id: movieId ?? null,
+    space_stone: typeof spaceRating === 'string' ? Number(spaceRating) : null,
+    time_stone: typeof timeRating === 'string' ? Number(timeRating) : null,
+    reality_stone: typeof realityRating === 'string' ? Number(realityRating) : null,
+    power_stone: typeof powerRating === 'string' ? Number(powerRating) : null,
+    mind_stone: typeof mindRating === 'string' ? Number(mindRating) : null,
+    soul_stone: typeof soulRating === 'string' ? Number(soulRating) : null,
+    tva_score: typeof tvaRating === 'string' ? Number(tvaRating) : null,
+    saga_score: typeof sagaRating === 'string' ? Number(sagaRating) : null,
+    user_review: typeof reviewText === 'string' ? reviewText : null, // match column name
+  };
+
+  const { data, error } = await supabase.from('user_ratings').insert(payload).select();
+
+  if (error) {
+    console.error("Error inserting user rating:", error);
+    throw new Error("Failed to submit rating");
+  }
+
+  console.log("Successfully inserted user rating:", data);
+  return redirect(`/mcu-index/detail/${movieId}/${movieName}`);
 }
 
 const stones = [

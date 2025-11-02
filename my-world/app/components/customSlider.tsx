@@ -15,7 +15,7 @@ export const CustomSlider = ({ name, tooltipInfo, defaultValue, minLabel, midLab
   return (
     <div className=''>
       <div className='space-y-2'>
-          <input type="range" min="0" max="100" step="10" name={name} defaultValue={defaultValue} className="w-full h-2 bg-foreground/60 rounded-lg appearance-none cursor-grab" />
+          <input type="range" min="0" max="1" step="0.01" name={name} defaultValue={defaultValue} className="w-full h-2 bg-foreground/60 rounded-lg appearance-none cursor-grab" />
           <div className='flex justify-between font-bold'>
               <span className="text-xs text-foreground/50">{minLabel}</span>
               <span className="text-xs text-foreground/50">{midLabel}</span>

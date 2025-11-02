@@ -15,12 +15,12 @@ export async function getDB() {
   });
 }
 
-export async function saveProgress(data: Record<number, boolean>) {
+export async function saveProgress(data: Record<string, boolean>) {
   const db = await getDB();
   await db.put(STORE_NAME, data, 'watchedMovies');
 }
 
-export async function loadProgress(): Promise<Record<number, boolean>> {
+export async function loadProgress(): Promise<Record<string, boolean>> {
   const db = await getDB();
   return (await db.get(STORE_NAME, 'watchedMovies')) || {};
 }

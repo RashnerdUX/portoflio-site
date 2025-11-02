@@ -35,7 +35,7 @@ export const NavBar = () => {
       {/* Navbar */}
       <nav className='sticky top-0 bg-background border-b border-b-tertiary backdrop-blur-md z-50'>
         {/* Main container */}
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-8xl mx-auto px-4 sm:px-6 lg:px-8'>
           {/* Navbar Content */}
           <div className='flex items-center justify-between h-16'>
 

@@ -3,22 +3,17 @@ import { OrderNavigation } from '../index_page/order_navigation';
 import ProgressBar from '../index_page/progress_bar';
 import MovieTile from '../index_page/movie_tile';
 import { saveProgress } from '~/utils/db';
-
 interface WatchOrderProps {
   initialProgress: Record<number, boolean>;
   selectedOrder: string;
   onOrderChange: (order: string) => void;
-  sortedMovies: Array<{
-    id: number;
-    title: string;
-    posterUrl: string;
-  }>;
+  sortedMovies: Array<{ id: string; title: string; poster_url: string | null }>;
 }
 
 export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sortedMovies }: WatchOrderProps) => {
 
   // Monitor watched progress
-  const [watchedMovies, setWatchedMovies] = useState<Record<number, boolean>>(initialProgress || {});
+  const [watchedMovies, setWatchedMovies] = useState<Record<string, boolean>>(initialProgress || {});
 
   // Update the default watchedMovies when initialProgress changes
   useEffect(() => {
@@ -39,7 +34,7 @@ export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sort
   }, [watchedMovies]);
 
   // Handle toggling watched status
-  const handleToggleWatched = (id: number) => {
+  const handleToggleWatched = (id: string) => {
     setWatchedMovies((prev) => ({
       ...prev,
       [id]: !prev[id],
@@ -78,7 +73,7 @@ export const WatchOrder = ({ initialProgress, selectedOrder, onOrderChange, sort
                   {/* Watch List for Movies */}
                   <div className=''>
                     {sortedMovies.map(movie => (
-                      <MovieTile key={movie.title} id={movie.id} title={movie.title} watched={!!watchedMovies[movie.id]} posterUrl={movie.posterUrl} onToggleSelect={handleToggleWatched} />
+                      <MovieTile key={movie.title} id={movie.id} title={movie.title} watched={!!watchedMovies[movie.id]} poster_url={movie.poster_url ?? "/images/placeholder.png"} onToggleSelect={handleToggleWatched} />
                     ))}
                   </div>
     
