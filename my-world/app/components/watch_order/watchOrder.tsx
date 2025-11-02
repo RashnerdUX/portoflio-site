@@ -4,7 +4,7 @@ import ProgressBar from '../index_page/progress_bar';
 import MovieTile from '../index_page/movie_tile';
 import { saveProgress } from '~/utils/db';
 interface WatchOrderProps {
-  initialProgress: Record<number, boolean>;
+  initialProgress: Record<string, boolean>;
   selectedOrder: string;
   onOrderChange: (order: string) => void;
   sortedMovies: Array<{ id: string; title: string; poster_url: string | null }>;

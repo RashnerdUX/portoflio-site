@@ -3,7 +3,7 @@ import type { Route } from './+types/watchlist';
 import { Loading } from '~/components/loadingIcon';
 import WatchOrder from '~/components/watch_order/watchOrder';
 import { loadProgress } from '~/utils/db';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import supabase from 'app/utils/supabase.server';
 
 
@@ -14,27 +14,60 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({}: Route.LoaderArgs) {
-  // Fetch the list of MCU movies from Supabase
-  const { data: mcuList, error } = await supabase
-    .from('marvel_movies')
-    .select('*');
+export async function loader({ request }: Route.LoaderArgs) {
+  const url = new URL(request.url);
+  const watchOrderSelection = (url.searchParams.get('order') ?? 'chronological') as 'chronological' | 'release' | 'phase';
+
+  const watchOrderColumns: Record<string, Array<{ column: string; ascending: boolean }>> = {
+    chronological: [{ column: 'chronological_order', ascending: true }],
+    release: [{ column: 'release_year', ascending: true }],
+    phase: [
+      { column: 'phase', ascending: true },
+      { column: 'release_year', ascending: true },
+    ],
+  };
+
+  const ordering = watchOrderColumns[watchOrderSelection] ?? watchOrderColumns.chronological;
+
+  let watchOrderQuery = supabase
+    .from('marvel_movies_with_defaults')
+    .select('id,title,poster_url,phase,release_year,chronological_order');
+
+  ordering.forEach(({ column, ascending }) => {
+    watchOrderQuery = watchOrderQuery.order(column, { ascending });
+  });
+
+  const { data: mcuList, error } = await watchOrderQuery;
 
   if (error) {
     console.error("Error fetching MCU movies from Supabase:", error);
     throw new Error("Failed to load MCU movies");
   }
 
-    console.log("Loaded from the Server: ");
-  return { watchlist: mcuList, initialProgress: null };
+  const watchOrderList = (mcuList ?? []).reduce<Array<{ id: string; title: string; poster_url: string | null }>>((acc, movie) => {
+    if (!movie?.id || !movie?.title) {
+      return acc;
+    }
+
+    acc.push({
+      id: movie.id,
+      title: movie.title,
+      poster_url: movie.poster_url ?? null,
+    });
+
+    return acc;
+  }, []);
+
+  console.log("Loaded from the Server: ");
+  return { watchlist: watchOrderList, watchOrderOrder: watchOrderSelection, initialProgress: null };
 }
 
-export async function clientLoader({serverLoader, params}: Route.ClientLoaderArgs) {
+export async function clientLoader({serverLoader}: Route.ClientLoaderArgs) {
   const serverData = await serverLoader();
   const saved = await loadProgress();
 
   console.log("Loaded progress from IndexedDB: ", saved);
-  return { watchlist: serverData.watchlist, initialProgress: saved };
+  return { watchlist: serverData.watchlist, watchOrderOrder: serverData.watchOrderOrder, initialProgress: saved ?? serverData.initialProgress };
 }
 
 // This ensures the clientLoader also works 
@@ -45,7 +78,8 @@ export function HydrateFallBack() {
 }
 
 export const WatchOrderPage = ({loaderData} : Route.ComponentProps) => {
-    const [selectedOrder, setSelectedOrder] = useState<string>('chronological');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedOrder, setSelectedOrder] = useState<string>(loaderData.watchOrderOrder ?? 'chronological');
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,43 +108,23 @@ export const WatchOrderPage = ({loaderData} : Route.ComponentProps) => {
       };
     }, [navigate]);
 
+    useEffect(() => {
+      setSelectedOrder(loaderData.watchOrderOrder ?? 'chronological');
+    }, [loaderData.watchOrderOrder]);
+
     const handleOrderChange = (newOrder: string) => {
         setSelectedOrder(newOrder);
-        console.log("Selected order changed to: ", newOrder);
+        const params = new URLSearchParams(searchParams);
+        params.set('order', newOrder);
+        setSearchParams(params);
     }
 
     const { watchlist, initialProgress } = loaderData;
 
-    const sortedMovies = React.useMemo(() => {
-        const movies = [...watchlist]
-
-        switch (selectedOrder) {
-          case 'chronological':
-            // Sort by in-universe chronological order
-            return movies.sort((a, b) => a.chronological_order - b.chronological_order)
-          
-          case 'release':
-            // Sort by release year
-            return movies.sort((a, b) => a.release_year - b.release_year)
-
-          case 'phase':
-            // Sort by phase, then by release year within each phase
-            return movies.sort((a, b) => {
-              if (a.phase === b.phase) {
-                return a.release_year - b.release_year
-              }
-              return a.phase - b.phase
-            })
-          
-          default:
-            return movies
-        }
-      }, [watchlist, selectedOrder])
-
   return (
     <>
         <main className='flex flex-col flex-1 py-4 px-4 sm:px-6 lg:px-16 gap-8'>
-            <WatchOrder initialProgress={initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={sortedMovies} />
+            <WatchOrder initialProgress={initialProgress ?? {}} selectedOrder={selectedOrder} onOrderChange={handleOrderChange} sortedMovies={watchlist ?? []} />
         </main>
     </>
   )
