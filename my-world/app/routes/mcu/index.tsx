@@ -8,6 +8,7 @@ import { WatchOrder } from '~/components/watch_order/watchOrder';
 import { loadProgress } from '~/utils/db';
 import supabase  from "app/utils/supabase.server"
 import type { Movie } from '~/types/movie';
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 export function meta({}: Route.MetaArgs ) {
   return [
@@ -181,7 +182,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
                   disabled={currentPage === 1}
                   className='px-4 py-2 rounded-md bg-background/50 hover:bg-background/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
                 >
-                  Previous
+                  <IoIosArrowBack className="inline-block size-5" />
                 </button>
 
                 {/* Page Numbers */}
@@ -225,7 +226,7 @@ export const IndexPage = ({loaderData} : Route.ComponentProps) => {
                   disabled={currentPage === totalPages}
                   className='px-4 py-2 rounded-md bg-background/50 hover:bg-background/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
                 >
-                  Next
+                  <IoIosArrowForward className="inline-block size-5" />
                 </button>
               </div>
             )}
