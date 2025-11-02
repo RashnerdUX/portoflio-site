@@ -11,14 +11,18 @@ import { CreatorReview } from '~/components/details_page/creator_review';
 import { DetailButtons } from '~/components/details_page/detail_buttons';
 import supabase from 'app/utils/supabase.server';
 
-export function meta({params}: Route.MetaArgs){
+export function meta({params, loaderData}: Route.MetaArgs){
+  const data = loaderData;
+  const movie_data = data ? data.movieData : null;
+
+  const movieTitle = movie_data ? movie_data.title : params.movieName;
   return [
     {
-      title: params.movieName + " Review",
+      title: movieTitle + " | Review",
     },
     {
       name: "description",
-      content: "This is the details page for " + params.movieName,
+      content: "This is the details page for " + movieTitle,
     },
   ]
 }
